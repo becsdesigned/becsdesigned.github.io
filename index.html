@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +6,9 @@
   <title>becs designed</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
     :root {
       --white: #ffffff;
       --blue: #0000ff;
@@ -13,9 +16,6 @@
       --ink: #0a0a0a;
       --ink-light: #555;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--white);
@@ -25,8 +25,11 @@
       overflow-x: hidden;
     }
 
-    /* ── WIREFRAME GRID ── */
-    body::before {
+    .ink      { display: inline; filter: url(#ink-bleed); }
+    .ink-blue { color: var(--blue); filter: url(#ink-bleed-blue); }
+
+    /* ── wireframe grid on main site ── */
+    #main-site::before {
       content: '';
       position: fixed;
       inset: 0;
@@ -39,17 +42,250 @@
       opacity: 0.06;
     }
 
-    /* ── INK BLEED ── */
-    .ink {
-      display: inline;
-      filter: url(#ink-bleed);
-    }
-    .ink-blue {
-      color: var(--blue);
-      filter: url(#ink-bleed-blue);
+    /* ══════════════════════════════════════════
+       LOUPE PROJECT PAGE
+    ══════════════════════════════════════════ */
+
+    #loupe-page {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
-    /* ── NAV ── */
+    #loupe-page.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+      overflow-y: auto;
+    }
+
+    /* ── LOUPE ENTRY SCREEN ── */
+    #loupe-entry {
+      height: 100vh;
+      width: 100%;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    #loupe-entry.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loupe-entry-circle {
+      width: min(48vw, 48vh);
+      height: min(48vw, 48vh);
+      border-radius: 50%;
+      background: #d4e3c2;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
+      flex-shrink: 0;
+    }
+
+    .loupe-entry-circle:hover {
+      transform: scale(1.05);
+      background: #e2edd4;
+    }
+
+    .loupe-entry-label {
+      position: absolute;
+      bottom: 36px;
+      left: 40px;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #d4e3c2;
+      opacity: 0.45;
+    }
+
+    .loupe-entry-hint {
+      position: absolute;
+      bottom: 36px;
+      right: 40px;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #d4e3c2;
+      opacity: 0;
+      animation: blink 2.2s ease-in-out 1s infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:0} 50%{opacity:0.4} }
+
+    /* ── LOUPE PROJECT CONTENT ── */
+    #loupe-content {
+      background: #faf9f6;
+      min-height: 100vh;
+      display: none;
+    }
+
+    #loupe-content.visible { display: block; }
+
+    /* back bar */
+    .loupe-back-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #faf9f6;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 48px;
+      height: 48px;
+    }
+
+    .loupe-back-btn {
+      background: none;
+      border: none;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #888;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .loupe-back-btn:hover { color: #0a0a0a; }
+
+    .loupe-back-ref {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      color: #bbb;
+    }
+
+    /* project body — gijs.garden style */
+    .loupe-doc {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 72px 24px 160px;
+    }
+
+    .loupe-doc h1 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+    }
+
+    .loupe-doc h1 em { font-style: italic; }
+
+    .loupe-doc h2 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-top: 56px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .loupe-doc p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #444;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .loupe-doc p em { font-style: italic; }
+
+    .loupe-doc hr {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      margin: 56px 0;
+    }
+
+    /* inline image blocks */
+    .loupe-img-block {
+      margin: 48px -24px;
+    }
+
+    .loupe-img-block .img-placeholder {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loupe-img-block .img-caption {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: #aaa;
+      text-transform: uppercase;
+      padding: 10px 24px 0;
+    }
+
+    /* colour swatch strip */
+    .loupe-swatches {
+      display: flex;
+      margin: 48px -24px;
+    }
+
+    .loupe-swatch {
+      flex: 1;
+      height: 80px;
+    }
+
+    .loupe-swatch-label {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 12px 0;
+      color: #aaa;
+    }
+
+    /* meta row */
+    .loupe-meta {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 56px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
+
+    .loupe-meta-item {}
+
+    .loupe-meta-key {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.48rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 4px;
+    }
+
+    .loupe-meta-val {
+      font-family: 'Cormorant', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: #0a0a0a;
+    }
+
+    /* ══════════════════════════════════════════
+       MAIN BECS DESIGNED SITE
+    ══════════════════════════════════════════ */
+
+    #main-site { position: relative; }
+
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -63,11 +299,7 @@
       height: 52px;
     }
 
-    .nav-left, .nav-right {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+    .nav-left, .nav-right { display: flex; gap: 32px; list-style: none; }
     .nav-right { justify-content: flex-end; }
 
     nav a {
@@ -80,14 +312,8 @@
       transition: opacity 0.2s;
     }
     nav a:hover { opacity: 0.45; }
+    .nav-logo { display: flex; align-items: center; justify-content: center; }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       padding-top: 52px;
@@ -95,14 +321,6 @@
       grid-template-columns: 1fr 1fr;
       position: relative;
       z-index: 1;
-    }
-
-    .hero-divider {
-      position: absolute;
-      top: 52px; bottom: 0;
-      left: 50%;
-      width: 1px;
-      background: var(--blue);
     }
 
     .hero-left {
@@ -139,7 +357,6 @@
       line-height: 1.0;
       letter-spacing: -0.01em;
     }
-
     .hero-title .ital { font-style: italic; }
 
     .hero-desc {
@@ -166,12 +383,7 @@
     }
     .btn-wire:hover { background: var(--blue); color: var(--white); }
 
-    /* Corner brackets */
-    .brackets {
-      position: absolute;
-      inset: 30px;
-      pointer-events: none;
-    }
+    .brackets { position: absolute; inset: 30px; pointer-events: none; }
     .brackets::before, .brackets::after,
     .brackets span::before, .brackets span::after {
       content: '';
@@ -186,15 +398,8 @@
     .brackets span::before { bottom: 0; left: 0;  border-width: 0 0 1px 1px; }
     .brackets span::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
 
-    .hero-ball-svg {
-      width: 200px; height: 200px;
-      animation: spin-slow 18s linear infinite;
-    }
-
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
+    .hero-ball-svg { width: 200px; height: 200px; animation: spin-slow 18s linear infinite; }
+    @keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
     .hero-ref {
       font-family: 'Fragment Mono', monospace;
@@ -205,7 +410,6 @@
       opacity: 0.4;
     }
 
-    /* ── CATALOG STRIP ── */
     .strip {
       border-top: 1px solid var(--blue);
       border-bottom: 1px solid var(--blue);
@@ -215,37 +419,12 @@
       z-index: 1;
     }
 
-    .strip-cell {
-      padding: 24px 32px;
-      border-right: 1px solid var(--blue);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .strip-cell { padding: 24px 32px; border-right: 1px solid var(--blue); display: flex; flex-direction: column; gap: 4px; }
     .strip-cell:last-child { border-right: none; }
+    .strip-ref { font-family: 'Fragment Mono', monospace; font-size: 0.48rem; color: var(--blue); letter-spacing: 0.12em; opacity: 0.55; }
+    .strip-val { font-family: 'Cormorant', serif; font-size: 2.2rem; font-weight: 300; line-height: 1; }
+    .strip-label { font-family: 'Fragment Mono', monospace; font-size: 0.48rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-light); }
 
-    .strip-ref {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.48rem;
-      color: var(--blue);
-      letter-spacing: 0.12em;
-      opacity: 0.55;
-    }
-    .strip-val {
-      font-family: 'Cormorant', serif;
-      font-size: 2.2rem;
-      font-weight: 300;
-      line-height: 1;
-    }
-    .strip-label {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.48rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--ink-light);
-    }
-
-    /* ── WORK GRID ── */
     .work { position: relative; z-index: 1; }
 
     .grid-header {
@@ -255,25 +434,10 @@
       padding: 18px 40px;
       border-bottom: 1px solid var(--blue);
     }
-    .grid-header-title {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blue);
-      opacity: 0.7;
-    }
-    .grid-header-count {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.5rem;
-      color: var(--blue);
-      opacity: 0.4;
-    }
+    .grid-header-title { font-family: 'Fragment Mono', monospace; font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); opacity: 0.7; }
+    .grid-header-count { font-family: 'Fragment Mono', monospace; font-size: 0.5rem; color: var(--blue); opacity: 0.4; }
 
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 
     .work-cell {
       border-right: 1px solid var(--blue);
@@ -282,309 +446,83 @@
       flex-direction: column;
       transition: background 0.2s;
     }
-    .work-cell:nth-child(3n)  { border-right: none; }
+    .work-cell:nth-child(3n) { border-right: none; }
     .work-cell:hover { background: var(--blue-faint); }
+    .work-cell.has-project { cursor: pointer; }
 
-    .cell-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 18px;
-      border-bottom: 1px solid rgba(0,0,255,0.12);
-    }
-    .cell-ref {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.47rem;
-      color: var(--blue);
-      opacity: 0.55;
-      letter-spacing: 0.1em;
-    }
-    .cell-tag {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.44rem;
-      color: var(--blue);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid rgba(0,0,255,0.35);
-      padding: 2px 6px;
-    }
+    .cell-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid rgba(0,0,255,0.12); }
+    .cell-ref { font-family: 'Fragment Mono', monospace; font-size: 0.47rem; color: var(--blue); opacity: 0.55; letter-spacing: 0.1em; }
+    .cell-tag { font-family: 'Fragment Mono', monospace; font-size: 0.44rem; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(0,0,255,0.35); padding: 2px 6px; }
 
-    .cell-visual {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
-      min-height: 180px;
-    }
-
+    .cell-visual { flex: 1; display: flex; align-items: center; justify-content: center; padding: 28px; min-height: 180px; }
     .cell-visual svg { width: 75%; opacity: 0.3; transition: opacity 0.3s; }
     .work-cell:hover .cell-visual svg { opacity: 0.55; }
 
-    .cell-bottom {
-      padding: 12px 18px;
-      border-top: 1px solid rgba(0,0,255,0.12);
-    }
-    .cell-name {
-      font-family: 'Cormorant', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-    }
+    /* loupe cell preview */
+    .loupe-preview-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:28px; min-height:180px; background:#0a0a0a; transition: background 0.3s; }
+    .work-cell:hover .loupe-preview-wrap { background: #161616; }
+    .loupe-preview-dot { width:72px; height:72px; border-radius:50%; background:#d4e3c2; opacity:0.6; transition: opacity 0.3s, transform 0.3s; }
+    .work-cell:hover .loupe-preview-dot { opacity:1; transform:scale(1.1); }
 
-    /* CTA cell */
-    .work-cell.cta-cell {
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-    }
-    .cta-cell-text {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.52rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--blue);
-      opacity: 0.5;
-    }
+    .cell-bottom { padding: 12px 18px; border-top: 1px solid rgba(0,0,255,0.12); }
+    .cell-name { font-family: 'Cormorant', serif; font-size: 1.1rem; font-weight: 300; }
 
-    /* ── ABOUT ── */
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      border-top: 1px solid var(--blue);
-      position: relative;
-      z-index: 1;
-    }
+    .work-cell.cta-cell { cursor: pointer; align-items: center; justify-content: center; gap: 14px; }
+    .cta-cell-text { font-family: 'Fragment Mono', monospace; font-size: 0.52rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); opacity: 0.5; }
 
-    .about-left {
-      border-right: 1px solid var(--blue);
-      padding: 72px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    .about { display: grid; grid-template-columns: 1fr 2fr; border-top: 1px solid var(--blue); position: relative; z-index: 1; }
+    .about-left { border-right: 1px solid var(--blue); padding: 72px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+    .about-ball-frame { border: 1px dashed rgba(0,0,255,0.25); display: flex; align-items: center; justify-content: center; padding: 36px; margin-top: 28px; }
+    .about-meta { font-family: 'Fragment Mono', monospace; font-size: 0.48rem; letter-spacing: 0.12em; color: var(--blue); opacity: 0.45; line-height: 2.2; }
+    .about-right { padding: 72px 60px; }
 
-    .about-ball-frame {
-      border: 1px dashed rgba(0,0,255,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 36px;
-      margin-top: 28px;
-    }
-
-    .about-meta {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.48rem;
-      letter-spacing: 0.12em;
-      color: var(--blue);
-      opacity: 0.45;
-      line-height: 2.2;
-    }
-
-    .about-right {
-      padding: 72px 60px;
-    }
-
-    .section-title {
-      font-family: 'Cormorant', serif;
-      font-size: clamp(2.6rem, 4.5vw, 4.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      margin-bottom: 36px;
-    }
+    .section-title { font-family: 'Cormorant', serif; font-size: clamp(2.6rem, 4.5vw, 4.5rem); font-weight: 300; line-height: 1.05; margin-bottom: 36px; }
     .section-title em { font-style: italic; }
 
-    .body-text {
-      font-size: 1rem;
-      line-height: 1.9;
-      color: var(--ink-light);
-      font-weight: 300;
-      max-width: 520px;
-    }
+    .body-text { font-size: 1rem; line-height: 1.9; color: var(--ink-light); font-weight: 300; max-width: 520px; }
     .body-text p + p { margin-top: 18px; }
 
-    /* ── SERVICES ── */
-    .services {
-      border-top: 1px solid var(--blue);
-      position: relative;
-      z-index: 1;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .svc-cell {
-      border-right: 1px solid var(--blue);
-      border-bottom: 1px solid var(--blue);
-      padding: 44px 38px;
-      transition: background 0.2s;
-      position: relative;
-    }
+    .services { border-top: 1px solid var(--blue); position: relative; z-index: 1; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .svc-cell { border-right: 1px solid var(--blue); border-bottom: 1px solid var(--blue); padding: 44px 38px; transition: background 0.2s; }
     .svc-cell:hover { background: var(--blue-faint); }
     .svc-cell:nth-child(3n) { border-right: none; }
     .svc-cell:nth-child(n+4) { border-bottom: none; }
+    .svc-num { font-family: 'Fragment Mono', monospace; font-size: 0.5rem; color: var(--blue); opacity: 0.45; letter-spacing: 0.14em; margin-bottom: 18px; }
+    .svc-name { font-family: 'Cormorant', serif; font-size: 1.5rem; font-weight: 300; margin-bottom: 14px; line-height: 1.1; }
+    .svc-desc { font-size: 0.88rem; line-height: 1.8; color: var(--ink-light); font-weight: 300; }
 
-    .svc-num {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.5rem;
-      color: var(--blue);
-      opacity: 0.45;
-      letter-spacing: 0.14em;
-      margin-bottom: 18px;
-    }
-    .svc-name {
-      font-family: 'Cormorant', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      margin-bottom: 14px;
-      line-height: 1.1;
-    }
-    .svc-desc {
-      font-size: 0.88rem;
-      line-height: 1.8;
-      color: var(--ink-light);
-      font-weight: 300;
-    }
-
-    /* ── CONTACT ── */
-    .contact {
-      border-top: 1px solid var(--blue);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      z-index: 1;
-    }
-
-    .contact-left {
-      border-right: 1px solid var(--blue);
-      padding: 80px 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .contact-title {
-      font-family: 'Cormorant', serif;
-      font-size: clamp(2.8rem, 5vw, 4.8rem);
-      font-weight: 300;
-      line-height: 1.02;
-    }
+    .contact { border-top: 1px solid var(--blue); display: grid; grid-template-columns: 1fr 1fr; position: relative; z-index: 1; }
+    .contact-left { border-right: 1px solid var(--blue); padding: 80px 56px; display: flex; flex-direction: column; justify-content: space-between; }
+    .contact-title { font-family: 'Cormorant', serif; font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 300; line-height: 1.02; }
     .contact-title em { font-style: italic; color: var(--blue); }
-
-    .contact-meta {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.12em;
-      color: var(--blue);
-      line-height: 2.4;
-      opacity: 0.65;
-    }
-
+    .contact-meta { font-family: 'Fragment Mono', monospace; font-size: 0.56rem; letter-spacing: 0.12em; color: var(--blue); line-height: 2.4; opacity: 0.65; }
     .contact-right { padding: 80px 56px; }
 
     .form-row { margin-bottom: 24px; }
-    .form-label {
-      display: block;
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--blue);
-      opacity: 0.6;
-      margin-bottom: 8px;
-    }
-    .form-input, .form-textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(0,0,255,0.3);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--ink);
-      padding: 8px 0;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    .form-label { display: block; font-family: 'Fragment Mono', monospace; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); opacity: 0.6; margin-bottom: 8px; }
+    .form-input, .form-textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(0,0,255,0.3); font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; color: var(--ink); padding: 8px 0; outline: none; transition: border-color 0.2s; }
     .form-input:focus, .form-textarea:focus { border-color: var(--blue); }
     .form-textarea { resize: none; min-height: 90px; }
-
-    .form-submit {
-      margin-top: 28px;
-      background: transparent;
-      border: 1px solid var(--blue);
-      color: var(--blue);
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 13px 32px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
+    .form-submit { margin-top: 28px; background: transparent; border: 1px solid var(--blue); color: var(--blue); font-family: 'Fragment Mono', monospace; font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 13px 32px; cursor: pointer; transition: background 0.2s, color 0.2s; }
     .form-submit:hover { background: var(--blue); color: var(--white); }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--blue);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      position: relative;
-      z-index: 1;
-    }
-
-    .footer-cell {
-      padding: 22px 40px;
-      border-right: 1px solid var(--blue);
-      display: flex;
-      align-items: center;
-    }
+    footer { border-top: 1px solid var(--blue); display: grid; grid-template-columns: repeat(3, 1fr); position: relative; z-index: 1; }
+    .footer-cell { padding: 22px 40px; border-right: 1px solid var(--blue); display: flex; align-items: center; }
     .footer-cell:last-child { border-right: none; justify-content: flex-end; }
     .footer-cell:nth-child(2) { justify-content: center; }
-
-    .footer-brand {
-      font-family: 'Cormorant', serif;
-      font-size: 1rem;
-      font-weight: 300;
-      filter: url(#ink-bleed);
-    }
-
+    .footer-brand { font-family: 'Cormorant', serif; font-size: 1rem; font-weight: 300; filter: url(#ink-bleed); }
     .footer-links { display: flex; gap: 24px; list-style: none; }
-    .footer-links a {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--blue);
-      text-decoration: none;
-      opacity: 0.45;
-      transition: opacity 0.2s;
-    }
+    .footer-links a { font-family: 'Fragment Mono', monospace; font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); text-decoration: none; opacity: 0.45; transition: opacity 0.2s; }
     .footer-links a:hover { opacity: 1; }
+    .footer-copy { font-family: 'Fragment Mono', monospace; font-size: 0.48rem; color: var(--blue); opacity: 0.35; letter-spacing: 0.1em; }
 
-    .footer-copy {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.48rem;
-      color: var(--blue);
-      opacity: 0.35;
-      letter-spacing: 0.1em;
-    }
-
-    /* ── REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: none; }
     .d1 { transition-delay: 0.1s; }
     .d2 { transition-delay: 0.2s; }
     .d3 { transition-delay: 0.3s; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 800px) {
       nav { grid-template-columns: 1fr auto; }
       .nav-right { display: none; }
@@ -607,7 +545,6 @@
 </head>
 <body>
 
-  <!-- SVG ink bleed filters -->
   <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
     <defs>
       <filter id="ink-bleed" x="-4%" y="-20%" width="108%" height="140%">
@@ -625,300 +562,328 @@
     </defs>
   </svg>
 
-  <!-- NAV -->
-  <nav>
-    <ul class="nav-left">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-    </ul>
-    <div class="nav-logo">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-        <circle cx="13" cy="13" r="12" stroke="#0000ff" stroke-width="0.9"/>
-        <circle cx="13" cy="13" r="5" stroke="#0000ff" stroke-width="0.7"/>
-        <text x="13" y="16.5" text-anchor="middle" fill="#0000ff" font-size="6" font-family="Georgia,serif">8</text>
-      </svg>
-    </div>
-    <ul class="nav-right">
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#">Instagram</a></li>
-    </ul>
-  </nav>
+  <!-- ══════════════════════════════
+       LOUPE PAGE
+  ══════════════════════════════ -->
+  <div id="loupe-page">
 
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <div class="hero-left">
-      <div>
-        <div class="label">Portfolio — 2025</div>
-        <h1 class="hero-title">
-          <span class="ink">becs</span><br/>
-          <span class="ink ital">designed.</span>
-        </h1>
-      </div>
-      <div>
-        <p class="hero-desc">Design that is deliberate. Branding, digital, and print work with a point of view. Based in Miami.</p>
-        <a href="#work" class="btn-wire">View catalog →</a>
-      </div>
+    <!-- entry screen: dark bg + light circle -->
+    <div id="loupe-entry">
+      <div class="loupe-entry-circle" onclick="revealLoupeContent()"></div>
+      <span class="loupe-entry-label">loupe — WK.006</span>
+      <span class="loupe-entry-hint">click to explore →</span>
     </div>
-    <div class="hero-right">
-      <div class="brackets"><span></span></div>
-      <!-- Wireframe rotating 8-ball -->
-      <svg class="hero-ball-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="96" stroke="#0000ff" stroke-width="1"/>
-        <ellipse cx="100" cy="100" rx="96" ry="36" stroke="#0000ff" stroke-width="0.7" opacity="0.45"/>
-        <ellipse cx="100" cy="100" rx="60" ry="96" stroke="#0000ff" stroke-width="0.6" opacity="0.3"/>
-        <ellipse cx="100" cy="100" rx="96" ry="70" stroke="#0000ff" stroke-width="0.5" opacity="0.2"/>
-        <line x1="100" y1="4" x2="100" y2="196" stroke="#0000ff" stroke-width="0.5" opacity="0.25"/>
-        <line x1="4" y1="100" x2="196" y2="100" stroke="#0000ff" stroke-width="0.5" opacity="0.25"/>
-        <circle cx="100" cy="100" r="32" stroke="#0000ff" stroke-width="1" fill="white"/>
-        <text x="100" y="114" text-anchor="middle" fill="#0000ff" font-size="30" font-weight="300" font-family="Georgia,serif">8</text>
-        <path d="M 58 52 A 62 62 0 0 1 136 46" stroke="#0000ff" stroke-width="0.5" opacity="0.2" fill="none"/>
-      </svg>
-      <div class="hero-ref">REF. BD-001 · OBJECT 01</div>
-    </div>
-  </section>
 
-  <!-- STRIP -->
-  <div class="strip">
-    <div class="strip-cell">
-      <div class="strip-ref">CAT.01</div>
-      <div class="strip-val"><span class="ink">5+</span></div>
-      <div class="strip-label">Years active</div>
-    </div>
-    <div class="strip-cell">
-      <div class="strip-ref">CAT.02</div>
-      <div class="strip-val"><span class="ink">80+</span></div>
-      <div class="strip-label">Projects</div>
-    </div>
-    <div class="strip-cell">
-      <div class="strip-ref">CAT.03</div>
-      <div class="strip-val"><span class="ink">6</span></div>
-      <div class="strip-label">Disciplines</div>
-    </div>
-    <div class="strip-cell">
-      <div class="strip-ref">CAT.04</div>
-      <div class="strip-val"><span class="ink">∞</span></div>
-      <div class="strip-label">Iterations</div>
+    <!-- project content: appears after clicking circle -->
+    <div id="loupe-content">
+
+      <div class="loupe-back-bar">
+        <button class="loupe-back-btn" onclick="closeLoupePage()">← becs designed</button>
+        <span class="loupe-back-ref">WK.006 — Loupe</span>
+      </div>
+
+      <div class="loupe-doc">
+
+        <h1><em>Loupe.</em></h1>
+
+        <div class="loupe-meta">
+          <div class="loupe-meta-item">
+            <div class="loupe-meta-key">Type</div>
+            <div class="loupe-meta-val">Brand identity</div>
+          </div>
+          <div class="loupe-meta-item">
+            <div class="loupe-meta-key">Year</div>
+            <div class="loupe-meta-val">2025</div>
+          </div>
+          <div class="loupe-meta-item">
+            <div class="loupe-meta-key">Deliverables</div>
+            <div class="loupe-meta-val">Mark, palette, type, guidelines</div>
+          </div>
+        </div>
+
+        <p>A study in reduction. Loupe asks: what is the minimum a brand needs to exist? The answer, it turns out, is almost nothing — a shape, a colour, an intention. Everything else is noise.</p>
+
+        <p>The circle as the mark. Not a logo in the traditional sense — no wordmark, no tagline — just a single form that creates presence wherever it lands. Small on a business card. Enormous on a wall. It holds either way.</p>
+
+        <div class="loupe-img-block">
+          <div class="img-placeholder" style="background:#0a0a0a; height:400px;">
+            <div style="width:42%;aspect-ratio:1;border-radius:50%;background:#d4e3c2;"></div>
+          </div>
+          <div class="img-caption">Primary application — dark field</div>
+        </div>
+
+        <h2>The brief</h2>
+
+        <p>The client came with a word: <em>loupe</em>. A magnifying glass. A jeweller's tool. Something that brings the overlooked into focus. They wanted a brand that felt like that — precise, unassuming, quietly attentive.</p>
+
+        <p>The instinct was to over-design it. To make the concept literal. To draw a lens, an eye, a circle with a handle. All of that got stripped away until what remained was the thing itself: a circle. Unadorned. Confident in its plainness.</p>
+
+        <h2>Colour</h2>
+
+        <p>The palette came from a specific quality of morning light on a particular day. A field of sage. A sky not quite blue. Black as anchor, not as drama.</p>
+
+        <div class="loupe-swatches">
+          <div>
+            <div class="loupe-swatch" style="background:#0a0a0a;"></div>
+            <div class="loupe-swatch-label">#0a0a0a</div>
+          </div>
+          <div>
+            <div class="loupe-swatch" style="background:#d4e3c2;"></div>
+            <div class="loupe-swatch-label">#d4e3c2</div>
+          </div>
+          <div>
+            <div class="loupe-swatch" style="background:#f5f0e8;"></div>
+            <div class="loupe-swatch-label">#f5f0e8</div>
+          </div>
+          <div>
+            <div class="loupe-swatch" style="background:#7a8c6e;"></div>
+            <div class="loupe-swatch-label">#7a8c6e</div>
+          </div>
+        </div>
+
+        <p>The sage field colour is the heart of it. It reads as natural without being predictable. It has enough grey to feel considered. It works against black and it works against white — rare for a single colour to do both.</p>
+
+        <div class="loupe-img-block">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+            <div style="background:#d4e3c2;height:260px;display:flex;align-items:center;justify-content:center;">
+              <div style="width:100px;height:100px;border-radius:50%;background:#0a0a0a;"></div>
+            </div>
+            <div style="background:#f5f0e8;height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:#0a0a0a;"></div>
+              <span style="font-family:'Fragment Mono',monospace;font-size:0.46rem;letter-spacing:0.16em;text-transform:uppercase;color:#0a0a0a;opacity:0.4;">loupe</span>
+            </div>
+          </div>
+          <div class="img-caption">Mark variations on field and paper</div>
+        </div>
+
+        <h2>What reduction teaches</h2>
+
+        <p>Every project that strips back to almost nothing teaches the same lesson: the temptation to add is almost always about the designer's discomfort, not the work's need. Loupe was a practice in sitting with that discomfort until it passed.</p>
+
+        <p>What remained after all the stripping was something that could hold attention without demanding it. That is, maybe, the goal every time.</p>
+
+        <hr/>
+
+        <p style="font-size:0.85rem;color:#aaa;">
+          For enquiries about this project or similar work, <a href="#" onclick="closeLoupePage();document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;" style="color:#0a0a0a;text-underline-offset:3px;text-decoration:underline;">get in touch</a>.
+        </p>
+
+      </div>
     </div>
   </div>
 
-  <!-- WORK -->
-  <section class="work" id="work">
-    <div class="grid-header">
-      <span class="grid-header-title">Selected work — catalog</span>
-      <span class="grid-header-count">05 items</span>
-    </div>
-    <div class="work-grid">
+  <!-- ══════════════════════════════
+       MAIN SITE
+  ══════════════════════════════ -->
+  <div id="main-site">
 
-      <div class="work-cell reveal">
-        <div class="cell-top"><span class="cell-ref">WK.001</span><span class="cell-tag">Brand identity</span></div>
-        <div class="cell-visual">
-          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="160" height="100" stroke="#0000ff" stroke-width="0.9"/>
-            <line x1="20" y1="20" x2="180" y2="120" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/>
-            <line x1="180" y1="20" x2="20" y2="120" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/>
-            <circle cx="100" cy="70" r="28" stroke="#0000ff" stroke-width="0.9"/>
-            <circle cx="100" cy="70" r="11" stroke="#0000ff" stroke-width="0.7"/>
-            <text x="100" y="75" text-anchor="middle" fill="#0000ff" font-size="11" font-family="Georgia,serif">8</text>
-          </svg>
-        </div>
-        <div class="cell-bottom"><div class="cell-name"><span class="ink">Midnight Studio</span></div></div>
-      </div>
-
-      <div class="work-cell reveal d1">
-        <div class="cell-top"><span class="cell-ref">WK.002</span><span class="cell-tag">Web design</span></div>
-        <div class="cell-visual">
-          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="15" y="12" width="170" height="116" stroke="#0000ff" stroke-width="0.9"/>
-            <rect x="15" y="12" width="170" height="20" stroke="#0000ff" stroke-width="0.6" fill="rgba(0,0,255,0.04)"/>
-            <rect x="24" y="19" width="28" height="6" stroke="#0000ff" stroke-width="0.5"/>
-            <rect x="65" y="46" width="110" height="5" stroke="#0000ff" stroke-width="0.4" opacity="0.6"/>
-            <rect x="65" y="58" width="80" height="4" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/>
-            <rect x="65" y="68" width="95" height="4" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/>
-            <rect x="22" y="40" width="34" height="45" stroke="#0000ff" stroke-width="0.7"/>
-            <line x1="22" y1="40" x2="56" y2="85" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/>
-            <line x1="56" y1="40" x2="22" y2="85" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/>
-          </svg>
-        </div>
-        <div class="cell-bottom"><div class="cell-name"><span class="ink">Pulse Agency</span></div></div>
-      </div>
-
-      <div class="work-cell reveal d2">
-        <div class="cell-top"><span class="cell-ref">WK.003</span><span class="cell-tag">Packaging</span></div>
-        <div class="cell-visual">
-          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="55" y="32" width="90" height="78" stroke="#0000ff" stroke-width="0.9"/>
-            <polygon points="55,32 100,12 145,32" stroke="#0000ff" stroke-width="0.8" fill="none"/>
-            <line x1="100" y1="12" x2="100" y2="110" stroke="#0000ff" stroke-width="0.4" opacity="0.3"/>
-            <line x1="55" y1="71" x2="145" y2="71" stroke="#0000ff" stroke-width="0.4" opacity="0.3"/>
-            <circle cx="100" cy="76" r="9" stroke="#0000ff" stroke-width="0.7" opacity="0.6"/>
-          </svg>
-        </div>
-        <div class="cell-bottom"><div class="cell-name"><span class="ink">Noma Botanicals</span></div></div>
-      </div>
-
-      <div class="work-cell reveal">
-        <div class="cell-top"><span class="cell-ref">WK.004</span><span class="cell-tag">Print</span></div>
-        <div class="cell-visual">
-          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="14" y="14" width="82" height="112" stroke="#0000ff" stroke-width="0.9"/>
-            <rect x="104" y="14" width="82" height="112" stroke="#0000ff" stroke-width="0.9"/>
-            <line x1="14" y1="38" x2="96" y2="38" stroke="#0000ff" stroke-width="0.4" opacity="0.5"/>
-            <rect x="22" y="46" width="66" height="42" stroke="#0000ff" stroke-width="0.5" opacity="0.45"/>
-            <line x1="22" y1="46" x2="88" y2="88" stroke="#0000ff" stroke-width="0.35" opacity="0.3"/>
-            <line x1="88" y1="46" x2="22" y2="88" stroke="#0000ff" stroke-width="0.35" opacity="0.3"/>
-            <line x1="112" y1="28" x2="178" y2="28" stroke="#0000ff" stroke-width="3" opacity="0.18" stroke-linecap="round"/>
-            <line x1="112" y1="40" x2="165" y2="40" stroke="#0000ff" stroke-width="2" opacity="0.14" stroke-linecap="round"/>
-            <line x1="112" y1="52" x2="170" y2="52" stroke="#0000ff" stroke-width="2" opacity="0.11" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="cell-bottom"><div class="cell-name"><span class="ink">Amber Editorial</span></div></div>
-      </div>
-
-      <div class="work-cell reveal d1">
-        <div class="cell-top"><span class="cell-ref">WK.005</span><span class="cell-tag">Social & content</span></div>
-        <div class="cell-visual">
-          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="28" y="10" width="56" height="96" rx="5" stroke="#0000ff" stroke-width="0.9"/>
-            <rect x="94" y="24" width="56" height="96" rx="5" stroke="#0000ff" stroke-width="0.9"/>
-            <line x1="28" y1="25" x2="84" y2="25" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/>
-            <line x1="28" y1="93" x2="84" y2="93" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/>
-            <line x1="94" y1="39" x2="150" y2="39" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/>
-            <line x1="94" y1="107" x2="150" y2="107" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/>
-            <circle cx="56" cy="13" r="3" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/>
-            <circle cx="122" cy="27" r="3" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/>
-            <rect x="36" y="32" width="40" height="53" stroke="#0000ff" stroke-width="0.5" opacity="0.4"/>
-            <line x1="36" y1="32" x2="76" y2="85" stroke="#0000ff" stroke-width="0.3" opacity="0.25"/>
-            <line x1="76" y1="32" x2="36" y2="85" stroke="#0000ff" stroke-width="0.3" opacity="0.25"/>
-          </svg>
-        </div>
-        <div class="cell-bottom"><div class="cell-name"><span class="ink">Vela Fitness</span></div></div>
-      </div>
-
-      <!-- CTA cell -->
-      <div class="work-cell cta-cell reveal d2" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-        <svg width="36" height="36" viewBox="0 0 26 26" fill="none">
-          <circle cx="13" cy="13" r="12" stroke="#0000ff" stroke-width="0.8"/>
-          <circle cx="13" cy="13" r="5" stroke="#0000ff" stroke-width="0.6"/>
+    <nav>
+      <ul class="nav-left">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+      </ul>
+      <div class="nav-logo">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <circle cx="13" cy="13" r="12" stroke="#0000ff" stroke-width="0.9"/>
+          <circle cx="13" cy="13" r="5" stroke="#0000ff" stroke-width="0.7"/>
           <text x="13" y="16.5" text-anchor="middle" fill="#0000ff" font-size="6" font-family="Georgia,serif">8</text>
         </svg>
-        <span class="cta-cell-text">Start a project →</span>
       </div>
+      <ul class="nav-right">
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </nav>
 
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="about" id="about">
-    <div class="about-left reveal">
-      <div>
-        <div class="label">About</div>
-        <div class="about-ball-frame">
-          <svg width="100" height="100" viewBox="0 0 200 200" fill="none">
-            <circle cx="100" cy="100" r="96" stroke="#0000ff" stroke-width="1"/>
-            <ellipse cx="100" cy="100" rx="96" ry="36" stroke="#0000ff" stroke-width="0.7" opacity="0.4"/>
-            <ellipse cx="100" cy="100" rx="58" ry="96" stroke="#0000ff" stroke-width="0.6" opacity="0.3"/>
-            <line x1="100" y1="4" x2="100" y2="196" stroke="#0000ff" stroke-width="0.5" opacity="0.22"/>
-            <line x1="4" y1="100" x2="196" y2="100" stroke="#0000ff" stroke-width="0.5" opacity="0.22"/>
-            <circle cx="100" cy="100" r="32" stroke="#0000ff" stroke-width="0.9" fill="white"/>
-            <text x="100" y="114" text-anchor="middle" fill="#0000ff" font-size="30" font-family="Georgia,serif">8</text>
-          </svg>
+    <section class="hero" id="top">
+      <div class="hero-left">
+        <div>
+          <div class="label">Portfolio — 2025</div>
+          <h1 class="hero-title">
+            <span class="ink">becs</span><br/>
+            <span class="ink ital">designed.</span>
+          </h1>
+        </div>
+        <div>
+          <p class="hero-desc">Design that is deliberate. Branding, digital, and print work with a point of view. Based in Miami.</p>
+          <a href="#work" class="btn-wire">View catalog →</a>
         </div>
       </div>
-      <div class="about-meta">
-        Miami, FL<br/>
-        Available for projects<br/>
-        REF. BD-ABOUT-01
+      <div class="hero-right">
+        <div class="brackets"><span></span></div>
+        <svg class="hero-ball-svg" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="96" stroke="#0000ff" stroke-width="1"/>
+          <ellipse cx="100" cy="100" rx="96" ry="36" stroke="#0000ff" stroke-width="0.7" opacity="0.45"/>
+          <ellipse cx="100" cy="100" rx="60" ry="96" stroke="#0000ff" stroke-width="0.6" opacity="0.3"/>
+          <ellipse cx="100" cy="100" rx="96" ry="70" stroke="#0000ff" stroke-width="0.5" opacity="0.2"/>
+          <line x1="100" y1="4" x2="100" y2="196" stroke="#0000ff" stroke-width="0.5" opacity="0.25"/>
+          <line x1="4" y1="100" x2="196" y2="100" stroke="#0000ff" stroke-width="0.5" opacity="0.25"/>
+          <circle cx="100" cy="100" r="32" stroke="#0000ff" stroke-width="1" fill="white"/>
+          <text x="100" y="114" text-anchor="middle" fill="#0000ff" font-size="30" font-weight="300" font-family="Georgia,serif">8</text>
+          <path d="M 58 52 A 62 62 0 0 1 136 46" stroke="#0000ff" stroke-width="0.5" opacity="0.2" fill="none"/>
+        </svg>
+        <div class="hero-ref">REF. BD-001 · OBJECT 01</div>
       </div>
-    </div>
-    <div class="about-right reveal d2">
-      <h2 class="section-title">
-        <span class="ink">Bold ideas.</span><br/>
-        <em class="ink">Clean</em><br/>
-        <span class="ink">execution.</span>
-      </h2>
-      <div class="body-text">
-        <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
-        <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SERVICES -->
-  <section class="services" id="services">
-    <div class="grid-header">
-      <span class="grid-header-title">Services — what I offer</span>
-      <span class="grid-header-count">06 disciplines</span>
+    <div class="strip">
+      <div class="strip-cell"><div class="strip-ref">CAT.01</div><div class="strip-val"><span class="ink">5+</span></div><div class="strip-label">Years active</div></div>
+      <div class="strip-cell"><div class="strip-ref">CAT.02</div><div class="strip-val"><span class="ink">80+</span></div><div class="strip-label">Projects</div></div>
+      <div class="strip-cell"><div class="strip-ref">CAT.03</div><div class="strip-val"><span class="ink">6</span></div><div class="strip-label">Disciplines</div></div>
+      <div class="strip-cell"><div class="strip-ref">CAT.04</div><div class="strip-val"><span class="ink">∞</span></div><div class="strip-label">Iterations</div></div>
     </div>
-    <div class="services-grid">
-      <div class="svc-cell reveal"><div class="svc-num">01</div><div class="svc-name"><span class="ink">Brand Identity</span></div><div class="svc-desc">Logos, mark systems, colour palettes, type pairings, and guidelines — everything to show up consistently.</div></div>
-      <div class="svc-cell reveal d1"><div class="svc-num">02</div><div class="svc-name"><span class="ink">Web Design</span></div><div class="svc-desc">Landing pages, full sites, and digital campaigns. Pixel-perfect visuals handed off ready to build.</div></div>
-      <div class="svc-cell reveal d2"><div class="svc-num">03</div><div class="svc-name"><span class="ink">Print & Collateral</span></div><div class="svc-desc">Business cards, packaging, merch, event materials. Things you can hold and be proud to hand out.</div></div>
-      <div class="svc-cell reveal"><div class="svc-num">04</div><div class="svc-name"><span class="ink">Social & Content</span></div><div class="svc-desc">Feed graphics, story templates, carousels, campaign assets that make people stop scrolling.</div></div>
-      <div class="svc-cell reveal d1"><div class="svc-num">05</div><div class="svc-name"><span class="ink">Creative Direction</span></div><div class="svc-desc">Strategy and visual direction for shoots, campaigns, and launches. The thinking behind the making.</div></div>
-      <div class="svc-cell reveal d2"><div class="svc-num">06</div><div class="svc-name"><span class="ink">Custom Projects</span></div><div class="svc-desc">Got something unusual in mind? Let's talk. The best work often comes from briefs that don't fit a box.</div></div>
-    </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
-    <div class="contact-left reveal">
-      <div>
-        <div class="label">Get in touch</div>
-        <h2 class="contact-title">
-          <span class="ink">Let's make</span><br/>
-          <span class="ink">something</span><br/>
-          <em class="ink-blue">great.</em>
-        </h2>
+    <section class="work" id="work">
+      <div class="grid-header">
+        <span class="grid-header-title">Selected work — catalog</span>
+        <span class="grid-header-count">06 items</span>
       </div>
-      <div class="contact-meta">
-        hello@becsdesigned.com<br/>
-        Miami, Florida<br/>
-        @becsdesigned
-      </div>
-    </div>
-    <div class="contact-right reveal d2">
-      <div class="form-row">
-        <label class="form-label">Name</label>
-        <input class="form-input" type="text" placeholder="Your name"/>
-      </div>
-      <div class="form-row">
-        <label class="form-label">Email</label>
-        <input class="form-input" type="email" placeholder="your@email.com"/>
-      </div>
-      <div class="form-row">
-        <label class="form-label">Project</label>
-        <textarea class="form-textarea" placeholder="Tell me what you're working on"></textarea>
-      </div>
-      <button class="form-submit" id="sendBtn">Send message</button>
-    </div>
-  </section>
+      <div class="work-grid">
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-cell">
-      <span class="footer-brand">becs designed</span>
-    </div>
-    <div class="footer-cell">
-      <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Behance</a></li>
-        <li><a href="#">LinkedIn</a></li>
-      </ul>
-    </div>
-    <div class="footer-cell">
-      <span class="footer-copy">© 2025</span>
-    </div>
-  </footer>
+        <div class="work-cell reveal">
+          <div class="cell-top"><span class="cell-ref">WK.001</span><span class="cell-tag">Brand identity</span></div>
+          <div class="cell-visual"><svg viewBox="0 0 200 140" fill="none"><rect x="20" y="20" width="160" height="100" stroke="#0000ff" stroke-width="0.9"/><line x1="20" y1="20" x2="180" y2="120" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/><line x1="180" y1="20" x2="20" y2="120" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/><circle cx="100" cy="70" r="28" stroke="#0000ff" stroke-width="0.9"/><circle cx="100" cy="70" r="11" stroke="#0000ff" stroke-width="0.7"/><text x="100" y="75" text-anchor="middle" fill="#0000ff" font-size="11" font-family="Georgia,serif">8</text></svg></div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Midnight Studio</span></div></div>
+        </div>
+
+        <div class="work-cell reveal d1">
+          <div class="cell-top"><span class="cell-ref">WK.002</span><span class="cell-tag">Web design</span></div>
+          <div class="cell-visual"><svg viewBox="0 0 200 140" fill="none"><rect x="15" y="12" width="170" height="116" stroke="#0000ff" stroke-width="0.9"/><rect x="15" y="12" width="170" height="20" stroke="#0000ff" stroke-width="0.6" fill="rgba(0,0,255,0.04)"/><rect x="24" y="19" width="28" height="6" stroke="#0000ff" stroke-width="0.5"/><rect x="65" y="46" width="110" height="5" stroke="#0000ff" stroke-width="0.4" opacity="0.6"/><rect x="65" y="58" width="80" height="4" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/><rect x="65" y="68" width="95" height="4" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/><rect x="22" y="40" width="34" height="45" stroke="#0000ff" stroke-width="0.7"/><line x1="22" y1="40" x2="56" y2="85" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/><line x1="56" y1="40" x2="22" y2="85" stroke="#0000ff" stroke-width="0.4" opacity="0.35"/></svg></div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Pulse Agency</span></div></div>
+        </div>
+
+        <div class="work-cell reveal d2">
+          <div class="cell-top"><span class="cell-ref">WK.003</span><span class="cell-tag">Packaging</span></div>
+          <div class="cell-visual"><svg viewBox="0 0 200 140" fill="none"><rect x="55" y="32" width="90" height="78" stroke="#0000ff" stroke-width="0.9"/><polygon points="55,32 100,12 145,32" stroke="#0000ff" stroke-width="0.8" fill="none"/><line x1="100" y1="12" x2="100" y2="110" stroke="#0000ff" stroke-width="0.4" opacity="0.3"/><line x1="55" y1="71" x2="145" y2="71" stroke="#0000ff" stroke-width="0.4" opacity="0.3"/><circle cx="100" cy="76" r="9" stroke="#0000ff" stroke-width="0.7" opacity="0.6"/></svg></div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Noma Botanicals</span></div></div>
+        </div>
+
+        <div class="work-cell reveal">
+          <div class="cell-top"><span class="cell-ref">WK.004</span><span class="cell-tag">Print</span></div>
+          <div class="cell-visual"><svg viewBox="0 0 200 140" fill="none"><rect x="14" y="14" width="82" height="112" stroke="#0000ff" stroke-width="0.9"/><rect x="104" y="14" width="82" height="112" stroke="#0000ff" stroke-width="0.9"/><line x1="14" y1="38" x2="96" y2="38" stroke="#0000ff" stroke-width="0.4" opacity="0.5"/><rect x="22" y="46" width="66" height="42" stroke="#0000ff" stroke-width="0.5" opacity="0.45"/><line x1="22" y1="46" x2="88" y2="88" stroke="#0000ff" stroke-width="0.35" opacity="0.3"/><line x1="88" y1="46" x2="22" y2="88" stroke="#0000ff" stroke-width="0.35" opacity="0.3"/><line x1="112" y1="28" x2="178" y2="28" stroke="#0000ff" stroke-width="3" opacity="0.18" stroke-linecap="round"/><line x1="112" y1="40" x2="165" y2="40" stroke="#0000ff" stroke-width="2" opacity="0.14" stroke-linecap="round"/><line x1="112" y1="52" x2="170" y2="52" stroke="#0000ff" stroke-width="2" opacity="0.11" stroke-linecap="round"/></svg></div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Amber Editorial</span></div></div>
+        </div>
+
+        <div class="work-cell reveal d1">
+          <div class="cell-top"><span class="cell-ref">WK.005</span><span class="cell-tag">Social & content</span></div>
+          <div class="cell-visual"><svg viewBox="0 0 200 140" fill="none"><rect x="28" y="10" width="56" height="96" rx="5" stroke="#0000ff" stroke-width="0.9"/><rect x="94" y="24" width="56" height="96" rx="5" stroke="#0000ff" stroke-width="0.9"/><line x1="28" y1="25" x2="84" y2="25" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/><line x1="28" y1="93" x2="84" y2="93" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/><line x1="94" y1="39" x2="150" y2="39" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/><line x1="94" y1="107" x2="150" y2="107" stroke="#0000ff" stroke-width="0.4" opacity="0.4"/><circle cx="56" cy="13" r="3" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/><circle cx="122" cy="27" r="3" stroke="#0000ff" stroke-width="0.5" opacity="0.5"/><rect x="36" y="32" width="40" height="53" stroke="#0000ff" stroke-width="0.5" opacity="0.4"/><line x1="36" y1="32" x2="76" y2="85" stroke="#0000ff" stroke-width="0.3" opacity="0.25"/><line x1="76" y1="32" x2="36" y2="85" stroke="#0000ff" stroke-width="0.3" opacity="0.25"/></svg></div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Vela Fitness</span></div></div>
+        </div>
+
+        <!-- LOUPE CELL -->
+        <div class="work-cell has-project reveal d2" onclick="openLoupePage()">
+          <div class="cell-top"><span class="cell-ref">WK.006</span><span class="cell-tag">Brand identity</span></div>
+          <div class="loupe-preview-wrap">
+            <div class="loupe-preview-dot"></div>
+          </div>
+          <div class="cell-bottom"><div class="cell-name"><span class="ink">Loupe</span></div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-left reveal">
+        <div>
+          <div class="label">About</div>
+          <div class="about-ball-frame">
+            <svg width="100" height="100" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="96" stroke="#0000ff" stroke-width="1"/>
+              <ellipse cx="100" cy="100" rx="96" ry="36" stroke="#0000ff" stroke-width="0.7" opacity="0.4"/>
+              <ellipse cx="100" cy="100" rx="58" ry="96" stroke="#0000ff" stroke-width="0.6" opacity="0.3"/>
+              <line x1="100" y1="4" x2="100" y2="196" stroke="#0000ff" stroke-width="0.5" opacity="0.22"/>
+              <line x1="4" y1="100" x2="196" y2="100" stroke="#0000ff" stroke-width="0.5" opacity="0.22"/>
+              <circle cx="100" cy="100" r="32" stroke="#0000ff" stroke-width="0.9" fill="white"/>
+              <text x="100" y="114" text-anchor="middle" fill="#0000ff" font-size="30" font-family="Georgia,serif">8</text>
+            </svg>
+          </div>
+        </div>
+        <div class="about-meta">Miami, FL<br/>Available for projects<br/>REF. BD-ABOUT-01</div>
+      </div>
+      <div class="about-right reveal d2">
+        <h2 class="section-title"><span class="ink">Bold ideas.</span><br/><em class="ink">Clean</em><br/><span class="ink">execution.</span></h2>
+        <div class="body-text">
+          <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
+          <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="grid-header">
+        <span class="grid-header-title">Services — what I offer</span>
+        <span class="grid-header-count">06 disciplines</span>
+      </div>
+      <div class="services-grid">
+        <div class="svc-cell reveal"><div class="svc-num">01</div><div class="svc-name"><span class="ink">Brand Identity</span></div><div class="svc-desc">Logos, mark systems, colour palettes, type pairings, and guidelines — everything to show up consistently.</div></div>
+        <div class="svc-cell reveal d1"><div class="svc-num">02</div><div class="svc-name"><span class="ink">Web Design</span></div><div class="svc-desc">Landing pages, full sites, and digital campaigns. Pixel-perfect visuals handed off ready to build.</div></div>
+        <div class="svc-cell reveal d2"><div class="svc-num">03</div><div class="svc-name"><span class="ink">Print & Collateral</span></div><div class="svc-desc">Business cards, packaging, merch, event materials. Things you can hold and be proud to hand out.</div></div>
+        <div class="svc-cell reveal"><div class="svc-num">04</div><div class="svc-name"><span class="ink">Social & Content</span></div><div class="svc-desc">Feed graphics, story templates, carousels, campaign assets that make people stop scrolling.</div></div>
+        <div class="svc-cell reveal d1"><div class="svc-num">05</div><div class="svc-name"><span class="ink">Creative Direction</span></div><div class="svc-desc">Strategy and visual direction for shoots, campaigns, and launches. The thinking behind the making.</div></div>
+        <div class="svc-cell reveal d2"><div class="svc-num">06</div><div class="svc-name"><span class="ink">Custom Projects</span></div><div class="svc-desc">Got something unusual in mind? Let's talk. The best work often comes from briefs that don't fit a box.</div></div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="contact-left reveal">
+        <div>
+          <div class="label">Get in touch</div>
+          <h2 class="contact-title"><span class="ink">Let's make</span><br/><span class="ink">something</span><br/><em class="ink-blue">great.</em></h2>
+        </div>
+        <div class="contact-meta">hello@becsdesigned.com<br/>Miami, Florida<br/>@becsdesigned</div>
+      </div>
+      <div class="contact-right reveal d2">
+        <div class="form-row"><label class="form-label">Name</label><input class="form-input" type="text" placeholder="Your name"/></div>
+        <div class="form-row"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com"/></div>
+        <div class="form-row"><label class="form-label">Project</label><textarea class="form-textarea" placeholder="Tell me what you're working on"></textarea></div>
+        <button class="form-submit" id="sendBtn">Send message</button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-cell"><span class="footer-brand">becs designed</span></div>
+      <div class="footer-cell"><ul class="footer-links"><li><a href="#">Instagram</a></li><li><a href="#">Behance</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+      <div class="footer-cell"><span class="footer-copy">© 2025</span></div>
+    </footer>
+
+  </div>
 
   <script>
-    // Scroll reveal
+    function openLoupePage() {
+      const page = document.getElementById('loupe-page');
+      // reset to entry screen each time
+      document.getElementById('loupe-entry').classList.remove('fade-out');
+      document.getElementById('loupe-content').classList.remove('visible');
+      page.classList.add('open');
+      page.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function revealLoupeContent() {
+      const entry = document.getElementById('loupe-entry');
+      const content = document.getElementById('loupe-content');
+      entry.classList.add('fade-out');
+      setTimeout(() => {
+        content.classList.add('visible');
+        document.getElementById('loupe-page').style.overflowY = 'auto';
+        document.body.style.overflow = 'hidden';
+      }, 500);
+    }
+
+    function closeLoupePage() {
+      const page = document.getElementById('loupe-page');
+      page.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // scroll reveal
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.07 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    // Send btn
+    // send btn
     document.getElementById('sendBtn').addEventListener('click', function() {
       this.textContent = 'Sent ✓';
       this.style.background = '#0000ff';
@@ -930,5 +895,6 @@
       }, 3000);
     });
   </script>
+
 </body>
 </html>
