@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loupe — becs designed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #0000ff;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════
+       ENTRY SCREEN
+    ══════════════════════ */
+
+    #entry {
+      height: 100vh;
+      width: 100vw;
+      background: #0000ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: opacity 0.7s ease;
+    }
+
+    #entry.out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .entry-circle {
+      width: min(48vw, 48vh);
+      height: min(48vw, 48vh);
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+    }
+
+    .entry-circle:hover {
+      transform: scale(1.05);
+    }
+
+    .entry-label {
+      position: absolute;
+      bottom: 36px;
+      left: 40px;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ffffff;
+      opacity: 0.4;
+    }
+
+    .entry-hint {
+      position: absolute;
+      bottom: 36px;
+      right: 40px;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ffffff;
+      opacity: 0;
+      animation: blink 2.4s ease-in-out 1.2s infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:0} 50%{opacity:0.45} }
+
+    /* ══════════════════════
+       PROJECT PAGE
+    ══════════════════════ */
+
+    #project {
+      display: none;
+      background: #ffffff;
+      min-height: 100vh;
+    }
+
+    #project.visible { display: block; }
+
+    /* document body */
+    .doc {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 24px 160px;
+      color: #0a0a0a;
+    }
+
+    .doc-eyebrow {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #0000ff;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .doc-eyebrow a {
+      color: #0000ff;
+      text-decoration: none;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .doc-eyebrow a:hover { opacity: 1; }
+
+    .doc h1 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+    }
+
+    .doc h1 em { font-style: italic; }
+
+    .doc-meta {
+      display: flex;
+      gap: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(0,0,255,0.12);
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .doc-meta-item {}
+    .doc-meta-key {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #0000ff;
+      opacity: 0.45;
+      margin-bottom: 5px;
+    }
+    .doc-meta-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #0a0a0a;
+    }
+
+    .doc h2 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-top: 56px;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .doc p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: #444;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .doc p em { font-style: italic; color: #0a0a0a; }
+
+    .doc hr {
+      border: none;
+      border-top: 1px solid rgba(0,0,255,0.1);
+      margin: 60px 0;
+    }
+
+    /* image blocks — full bleed of the column */
+    .img-block {
+      margin: 48px -24px;
+    }
+
+    .img-caption {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: #bbb;
+      text-transform: uppercase;
+      padding: 10px 24px 0;
+    }
+
+    /* colour swatches */
+    .swatches {
+      display: flex;
+      margin: 48px -24px 8px;
+    }
+
+    .swatch { flex: 1; }
+    .swatch-block { height: 72px; }
+    .swatch-label {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 12px 0;
+      color: #bbb;
+    }
+
+    /* footer link */
+    .doc-footer {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      color: #bbb;
+      text-transform: uppercase;
+    }
+
+    .doc-footer a {
+      color: #0000ff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ENTRY: blue bg, white circle ── -->
+  <div id="entry">
+    <div class="entry-circle" onclick="enter()"></div>
+    <span class="entry-label">loupe — becs designed</span>
+    <span class="entry-hint">click →</span>
+  </div>
+
+  <!-- ── PROJECT PAGE ── -->
+  <div id="project">
+    <div class="doc">
+
+      <div class="doc-eyebrow">
+        <span>WK.006 — Loupe</span>
+        <a href="becs-designed.html">← becs designed</a>
+      </div>
+
+      <h1><em>Loupe.</em></h1>
+
+      <div class="doc-meta">
+        <div class="doc-meta-item">
+          <div class="doc-meta-key">Type</div>
+          <div class="doc-meta-val">Brand identity</div>
+        </div>
+        <div class="doc-meta-item">
+          <div class="doc-meta-key">Year</div>
+          <div class="doc-meta-val">2025</div>
+        </div>
+        <div class="doc-meta-item">
+          <div class="doc-meta-key">Deliverables</div>
+          <div class="doc-meta-val">Mark, palette, type, guidelines</div>
+        </div>
+      </div>
+
+      <p>A study in reduction. Loupe asks: what is the minimum a brand needs to exist? The answer, it turns out, is almost nothing — a shape, a colour, an intention. Everything else is noise.</p>
+
+      <p>The circle as the mark. Not a logo in the traditional sense — no wordmark, no tagline — just a single form that creates presence wherever it lands. Small on a business card. Enormous on a wall. It holds either way.</p>
+
+      <!-- hero image: blue bg, white circle -->
+      <div class="img-block">
+        <div style="background:#0000ff; height:420px; display:flex; align-items:center; justify-content:center;">
+          <div style="width:200px; height:200px; border-radius:50%; background:#ffffff;"></div>
+        </div>
+        <div class="img-caption">Primary application</div>
+      </div>
+
+      <h2>The brief</h2>
+
+      <p>The client came with a word: <em>loupe</em>. A magnifying glass. A jeweller's tool. Something that brings the overlooked into focus. They wanted a brand that felt like that — precise, unassuming, quietly attentive.</p>
+
+      <p>The instinct was to over-design it. To make the concept literal. To draw a lens, an eye, a circle with a handle. All of that got stripped away until what remained was the thing itself: a circle. Unadorned. Confident in its plainness.</p>
+
+      <h2>Colour</h2>
+
+      <p>Blue that doesn't explain itself. White that isn't trying. The palette does one thing and does it completely.</p>
+
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-block" style="background:#0000ff;"></div>
+          <div class="swatch-label" style="color:#0000ff;">#0000ff</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background:#ffffff; border: 1px solid #eee;"></div>
+          <div class="swatch-label">#ffffff</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background:#0a0a0a;"></div>
+          <div class="swatch-label">#0a0a0a</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-block" style="background:#f0f0f0;"></div>
+          <div class="swatch-label">#f0f0f0</div>
+        </div>
+      </div>
+
+      <!-- variations grid -->
+      <div class="img-block">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+          <div style="background:#0000ff; aspect-ratio:1; display:flex; align-items:center; justify-content:center;">
+            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#ffffff;"></div>
+          </div>
+          <div style="background:#ffffff; aspect-ratio:1; border:1px solid #eee; display:flex; align-items:center; justify-content:center;">
+            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#0000ff;"></div>
+          </div>
+          <div style="background:#0a0a0a; aspect-ratio:1; display:flex; align-items:center; justify-content:center;">
+            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#0000ff;"></div>
+          </div>
+          <div style="background:#f0f0f0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;">
+            <div style="width:18%; aspect-ratio:1; border-radius:50%; background:#0a0a0a;"></div>
+            <span style="font-family:'Fragment Mono',monospace; font-size:0.44rem; letter-spacing:0.18em; text-transform:uppercase; color:#0a0a0a; opacity:0.4;">loupe</span>
+          </div>
+        </div>
+        <div class="img-caption">Mark on field, reverse, dark, and small-scale with wordmark</div>
+      </div>
+
+      <h2>What reduction teaches</h2>
+
+      <p>Every project that strips back to almost nothing teaches the same lesson: the temptation to add is almost always about the designer's discomfort, not the work's need. Loupe was a practice in sitting with that discomfort until it passed.</p>
+
+      <p>What remained after all the stripping was something that could hold attention without demanding it. That is, maybe, the goal every time.</p>
+
+      <hr/>
+
+      <p class="doc-footer">
+        For enquiries about this work — <a href="mailto:hello@becsdesigned.com">hello@becsdesigned.com</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script>
+    function enter() {
+      const entry = document.getElementById('entry');
+      const project = document.getElementById('project');
+      entry.classList.add('out');
+      setTimeout(() => {
+        entry.style.display = 'none';
+        project.classList.add('visible');
+        document.body.style.background = '#ffffff';
+      }, 700);
+    }
+  </script>
+
+</body>
+</html>
