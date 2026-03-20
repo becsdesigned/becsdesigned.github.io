@@ -24,13 +24,11 @@
       height: 100vh;
       width: 100vw;
       background: #0000ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: fixed;
       inset: 0;
       z-index: 100;
-      transition: opacity 0.7s ease;
+      transition: background 0.4s ease, opacity 0.7s ease;
+      overflow: hidden;
     }
 
     #entry.out {
@@ -38,51 +36,106 @@
       pointer-events: none;
     }
 
-    .entry-circle {
-      width: min(62vw, 62vh);
-      height: min(62vw, 62vh);
-      border-radius: 50%;
+    /* invert whole background on either circle hover */
+    #entry:has(.circle-newsletter:hover) {
       background: #ffffff;
-      cursor: pointer;
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      flex-shrink: 0;
     }
 
-    .entry-circle:hover { transform: scale(1.04); }
-
-    .entry-label {
+    /* shared nav */
+    .entry-nav {
       position: absolute;
       bottom: 36px;
-      left: 40px;
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #ffffff;
-      opacity: 0.4;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      pointer-events: none;
     }
 
-    /* catalogue button — top right */
-    .entry-catalogue-btn {
-      position: absolute;
-      top: 32px;
-      right: 36px;
+    .entry-nav a, .entry-nav span {
       font-family: 'Fragment Mono', monospace;
       font-size: 0.54rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #ffffff;
+      color: rgba(255,255,255,0.4);
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.4);
-      padding: 10px 20px;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      pointer-events: all;
+      transition: color 0.2s;
     }
 
-    .entry-catalogue-btn:hover {
-      background: #ffffff;
-      color: #0000ff;
-      border-color: #ffffff;
+    .entry-nav a:hover { color: rgba(255,255,255,0.9); }
+
+    /* invert nav text on hover */
+    #entry:has(.circle-newsletter:hover) .entry-nav a,
+    #entry:has(.circle-newsletter:hover) .entry-nav span {
+      color: rgba(0,0,255,0.45);
     }
+
+    #entry:has(.circle-newsletter:hover) .entry-nav a:hover {
+      color: #0000ff;
+    }
+
+    /* ── orbit system ── */
+    .orbit-system {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* centred; children use transform to offset */
+    }
+
+    /* big circle — newsletter */
+    .circle-newsletter {
+      position: absolute;
+      width: min(52vw, 52vh);
+      height: min(52vw, 52vh);
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: background 0.35s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      overflow: hidden;
+    }
+
+    .circle-newsletter:hover {
+      background: #0000ff;
+      border: 2px solid #ffffff;
+    }
+
+    .circle-newsletter .circle-label {
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    .circle-newsletter:hover .circle-label { opacity: 1; }
+
+    .circle-label-main {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #ffffff;
+      display: block;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .circle-label-sub {
+      font-family: 'Fragment Mono', monospace;
+      font-size: clamp(0.38rem, 0.9vw, 0.5rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      display: block;
+    }
+
+
 
     /* ══════════════════════
        CANVAS PAGE
@@ -467,9 +520,26 @@
 
   <!-- ══ ENTRY ══ -->
   <div id="entry">
-    <div class="entry-circle" onclick="window.location.href='loupe-newsletter.html'"></div>
-    <span class="entry-label">loupe — becs designed</span>
-    <a class="entry-catalogue-btn" href="loupe-catalogue.html">View catalogue →</a>
+
+    <!-- orbit system, centred on page -->
+    <div class="orbit-system">
+
+    <!-- big circle: newsletter -->
+      <a class="circle-newsletter" href="loupe-newsletter.html">
+        <div class="circle-label">
+          <span class="circle-label-main">loupe newsletter</span>
+          <span class="circle-label-sub">monthly field guide</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- bottom nav -->
+    <div class="entry-nav">
+      <span>loupe — becs designed</span>
+      <a href="becs-designed.html">← becs designed</a>
+    </div>
+
   </div>
 
   <!-- ══ CANVAS PAGE ══ -->
