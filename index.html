@@ -193,7 +193,8 @@
     }
 
     .project-col {
-      flex: 1;
+      flex: 0 0 200px;
+      width: 200px;
       border-right: 1px solid rgba(0,0,0,0.2);
       min-height: 75vh;
       display: flex;
@@ -212,6 +213,8 @@
     .pc-2    { background: #d9ed92;  color: #52b69a; }
     .pc-3    { background: #B4AE00;  color: #ffffff; }
     .pc-4    { background: #76112D;  color: #94DDFF; }
+    .pc-poem { background: #000000;  color: #ffffff; }
+    .pc-gwj  { background: #6A421B;  color: #F9F3EB; }
 
     /* hover: darken slightly */
     .project-col:hover { filter: brightness(0.93); }
@@ -531,7 +534,7 @@
         <h2>Bold ideas.<br/><em>Clean execution.</em></h2>
         <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
         <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
-        <div class="info-meta">Broward, FL<br/>Available for projects<br/>hello@becsdesigned.com</div>
+        <div class="info-meta">Broward, FL<br/>Available for projects<br/><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="472f222b2b2807252224342322342e202922236924282a">[email&#160;protected]</a></div>
       </div>
 
       <div class="info-col">
@@ -608,7 +611,7 @@
             <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:#E20000;opacity:0.5;margin-bottom:12px;">Contact</div>
             <div style="margin-bottom:10px;">
               <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:#E20000;opacity:0.4;margin-bottom:4px;">Email</div>
-              <div style="font-family:var(--serif);font-size:0.85rem;color:#E20000;">hello@becsdesigned.com</div>
+              <div style="font-family:var(--serif);font-size:0.85rem;color:#E20000;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86eee3eaeae9c6e4e3e5f5e2e3f5efe1e8e3e2a8e5e9eb">[email&#160;protected]</a></div>
             </div>
             <div style="margin-bottom:10px;">
               <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:#E20000;opacity:0.4;margin-bottom:4px;">Instagram</div>
@@ -645,6 +648,48 @@
         <div class="col-footer">
           <span class="col-footer-label">View project</span>
           <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- [your poem here] -->
+      <a class="project-col" style="background:#000000;color:#ffffff;" href="#">
+        <div class="col-top" style="border-bottom:1px solid rgba(255,255,255,0.12);">
+          <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
+          <span class="col-title" style="color:#ffffff;">[your poem here]</span>
+          <span class="col-subtitle" style="color:#ffffff;">Writing, 2025</span>
+        </div>
+        <div class="col-image" style="border-bottom:1px solid rgba(255,255,255,0.12);">
+          <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">
+            [ &nbsp; &nbsp; &nbsp; ]<br/>
+            [ &nbsp; &nbsp; &nbsp; ]<br/>
+            [ &nbsp; &nbsp; &nbsp; ]
+          </div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc" style="color:#ffffff;">A collection of poems. Words placed carefully, like objects on a table.</p>
+        </div>
+        <div class="col-footer" style="border-top:1px solid rgba(255,255,255,0.12);">
+          <span class="col-footer-label" style="color:#ffffff;">View project</span>
+          <span class="col-footer-arrow" style="color:#ffffff;">→</span>
+        </div>
+      </a>
+
+      <!-- growwithjo -->
+      <a class="project-col" style="background:#6A421B;color:#F9F3EB;" href="#">
+        <div class="col-top" style="border-bottom:1px solid rgba(249,243,235,0.15);">
+          <span class="col-eyebrow" style="color:#F9F3EB;">growwithjo</span>
+          <span class="col-title" style="color:#F9F3EB;">growwithjo</span>
+          <span class="col-subtitle" style="color:#F9F3EB;">Brand &amp; digital, 2024</span>
+        </div>
+        <div class="col-image" style="border-bottom:1px solid rgba(249,243,235,0.15);">
+          <div style="width:55%;aspect-ratio:1;border-radius:50%;background:rgba(249,243,235,0.2);"></div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc" style="color:#F9F3EB;">Brand and digital work for a women's home fitness platform. Identity, web, and content across a growing community.</p>
+        </div>
+        <div class="col-footer" style="border-top:1px solid rgba(249,243,235,0.15);">
+          <span class="col-footer-label" style="color:#F9F3EB;">View project</span>
+          <span class="col-footer-arrow" style="color:#F9F3EB;">→</span>
         </div>
       </a>
 
@@ -710,7 +755,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     function openInfo() {
       document.getElementById('info-page').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -724,12 +769,4 @@
     function handleSend(btn) {
       btn.textContent = 'Sent ✓';
       btn.style.opacity = '0.6';
-      setTimeout(() => { btn.textContent = 'Send →'; btn.style.opacity = ''; }, 3000);
-    }
-
-    document.getElementById('sendBtn').addEventListener('click', function () {
-      this.textContent = 'Sent ✓';
-      this.style.background = '#0000ff';
-      setTimeout(() => { this.textContent = 'Send message'; this.style.background = ''; }, 3000);
-    });
-  </script>
+      setTim
