@@ -7,13 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html, body { height: 100%; }
 
     body {
       background: #0000ff;
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
     /* ══════════════════════
@@ -27,7 +27,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
       transition: opacity 0.7s ease;
     }
 
@@ -37,8 +39,8 @@
     }
 
     .entry-circle {
-      width: min(48vw, 48vh);
-      height: min(48vw, 48vh);
+      width: min(62vw, 62vh);
+      height: min(62vw, 62vh);
       border-radius: 50%;
       background: #ffffff;
       cursor: pointer;
@@ -46,9 +48,7 @@
       flex-shrink: 0;
     }
 
-    .entry-circle:hover {
-      transform: scale(1.05);
-    }
+    .entry-circle:hover { transform: scale(1.04); }
 
     .entry-label {
       position: absolute;
@@ -62,292 +62,721 @@
       opacity: 0.4;
     }
 
-    .entry-hint {
+    /* catalogue button — top right */
+    .entry-catalogue-btn {
       position: absolute;
-      bottom: 36px;
-      right: 40px;
+      top: 32px;
+      right: 36px;
       font-family: 'Fragment Mono', monospace;
-      font-size: 0.56rem;
+      font-size: 0.54rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #ffffff;
-      opacity: 0;
-      animation: blink 2.4s ease-in-out 1.2s infinite;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 10px 20px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
 
-    @keyframes blink { 0%,100%{opacity:0} 50%{opacity:0.45} }
+    .entry-catalogue-btn:hover {
+      background: #ffffff;
+      color: #0000ff;
+      border-color: #ffffff;
+    }
 
     /* ══════════════════════
-       PROJECT PAGE
+       CANVAS PAGE
     ══════════════════════ */
 
-    #project {
+    #canvas-page {
       display: none;
-      background: #ffffff;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+      background: #f5f2eb;
     }
 
-    #project.visible { display: block; }
-
-    /* document body */
-    .doc {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 80px 24px 160px;
-      color: #0a0a0a;
-    }
-
-    .doc-eyebrow {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.52rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #0000ff;
-      margin-bottom: 20px;
+    #canvas-page.visible {
       display: flex;
-      justify-content: space-between;
     }
 
-    .doc-eyebrow a {
-      color: #0000ff;
-      text-decoration: none;
-      opacity: 0.5;
-      transition: opacity 0.2s;
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 180px;
+      flex-shrink: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: #f5f2eb;
+      border-right: 1px solid rgba(0,0,0,0.08);
+      padding: 32px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
-    .doc-eyebrow a:hover { opacity: 1; }
+    .sidebar::-webkit-scrollbar { width: 0; }
 
-    .doc h1 {
+    .sidebar-title {
       font-family: 'Cormorant', serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-size: 1.5rem;
       font-weight: 300;
-      line-height: 1.0;
-      letter-spacing: -0.01em;
-      margin-bottom: 40px;
+      line-height: 1.15;
+      color: #1a1a1a;
+      margin-bottom: 16px;
     }
 
-    .doc h1 em { font-style: italic; }
+    .sidebar-desc {
+      font-size: 0.72rem;
+      line-height: 1.65;
+      color: rgba(0,0,0,0.55);
+      font-weight: 300;
+      margin-bottom: 6px;
+    }
 
-    .doc-meta {
+    .sidebar-link {
+      font-size: 0.72rem;
+      color: rgba(0,0,0,0.6);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+      display: block;
+      margin-bottom: 28px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .sidebar-section {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.45);
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .sidebar-category {
       display: flex;
-      gap: 40px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid rgba(0,0,255,0.12);
-      margin-bottom: 48px;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      color: rgba(0,0,0,0.7);
+      padding: 3px 0;
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', serif;
+      transition: color 0.15s;
+      user-select: none;
     }
 
-    .doc-meta-item {}
-    .doc-meta-key {
+    .sidebar-category:hover { color: #000; }
+    .sidebar-category.active { color: #000; font-style: italic; }
+
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sidebar-back {
+      margin-top: auto;
+      padding-top: 32px;
       font-family: 'Fragment Mono', monospace;
       font-size: 0.46rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #0000ff;
-      opacity: 0.45;
-      margin-bottom: 5px;
+      color: rgba(0,0,0,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
     }
-    .doc-meta-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
+
+    .sidebar-back:hover { color: rgba(0,0,0,0.8); }
+
+    /* ── MAIN CANVAS ── */
+    .canvas-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* axes */
+    .axis-h {
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      height: 1px;
+      background: rgba(0,0,0,0.12);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .axis-v {
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: rgba(0,0,0,0.12);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .axis-label {
+      position: absolute;
+      font-family: 'Cormorant', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(0,0,0,0.18);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .axis-label.top    { top: 18px;  left: 50%; transform: translateX(-50%); }
+    .axis-label.bottom { bottom: 18px; left: 50%; transform: translateX(-50%); }
+    .axis-label.left   { left: 18px; top: 50%; transform: translateY(-50%); }
+    .axis-label.right  { right: 18px; top: 50%; transform: translateY(-50%); }
+
+    /* specimen cards */
+    .specimen {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s ease, z-index 0s;
+      z-index: 1;
+    }
+
+    .specimen:hover { transform: scale(1.08) translateY(-3px); z-index: 50; }
+    .specimen.hidden { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+
+    .specimen-img {
+      display: block;
+      object-fit: cover;
+      box-shadow: 2px 3px 12px rgba(0,0,0,0.25);
+    }
+
+    /* placeholder specimen — coloured rectangle or circle shape */
+    .specimen-placeholder {
+      box-shadow: 2px 3px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .specimen-label {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.42rem;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.55);
+      margin-top: 4px;
+      text-transform: uppercase;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .specimen:hover .specimen-label { opacity: 1; }
+
+    /* tooltip on click */
+    .tooltip {
+      position: fixed;
+      z-index: 200;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,255,0.15);
+      padding: 14px 18px;
+      max-width: 240px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .tooltip.show { opacity: 1; }
+
+    .tooltip-name {
+      font-family: 'Cormorant', serif;
+      font-size: 1rem;
       font-weight: 300;
       color: #0a0a0a;
+      margin-bottom: 4px;
     }
 
-    .doc h2 {
-      font-family: 'Cormorant', serif;
-      font-size: 1.6rem;
-      font-weight: 300;
-      margin-top: 56px;
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-
-    .doc p {
-      font-size: 1rem;
-      line-height: 1.9;
-      color: #444;
-      font-weight: 300;
-      margin-bottom: 20px;
-    }
-
-    .doc p em { font-style: italic; color: #0a0a0a; }
-
-    .doc hr {
-      border: none;
-      border-top: 1px solid rgba(0,0,255,0.1);
-      margin: 60px 0;
-    }
-
-    /* image blocks — full bleed of the column */
-    .img-block {
-      margin: 48px -24px;
-    }
-
-    .img-caption {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.48rem;
-      letter-spacing: 0.1em;
-      color: #bbb;
-      text-transform: uppercase;
-      padding: 10px 24px 0;
-    }
-
-    /* colour swatches */
-    .swatches {
-      display: flex;
-      margin: 48px -24px 8px;
-    }
-
-    .swatch { flex: 1; }
-    .swatch-block { height: 72px; }
-    .swatch-label {
+    .tooltip-cat {
       font-family: 'Fragment Mono', monospace;
       font-size: 0.44rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 8px 12px 0;
-      color: #bbb;
+      color: #0000ff;
+      margin-bottom: 8px;
     }
 
-    /* footer link */
-    .doc-footer {
+    .tooltip-desc {
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #555;
+      font-weight: 300;
+    }
+
+    /* add specimen button */
+    .add-btn {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0000ff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      z-index: 10;
+      font-family: 'Fragment Mono', monospace;
+    }
+
+    .add-btn:hover { transform: scale(1.1); }
+
+    /* ── ADD SPECIMEN MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0,0,255,0.08);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: #fff;
+      border: 1px solid rgba(0,0,255,0.15);
+      padding: 36px 40px;
+      width: 420px;
+      max-width: 90vw;
+    }
+
+    .modal h3 {
+      font-family: 'Cormorant', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      margin-bottom: 24px;
+      color: #0a0a0a;
+    }
+
+    .modal-field {
+      margin-bottom: 18px;
+    }
+
+    .modal-label {
+      display: block;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #0000ff;
+      opacity: 0.6;
+      margin-bottom: 6px;
+    }
+
+    .modal-input, .modal-select, .modal-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,255,0.25);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #0a0a0a;
+      padding: 6px 0;
+      outline: none;
+    }
+
+    .modal-select { cursor: pointer; }
+    .modal-textarea { resize: none; min-height: 60px; }
+
+    .modal-range-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .modal-range-label {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .modal-range-label span { color: #0000ff; }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: #0000ff;
+      cursor: pointer;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn-cancel {
+      background: none;
+      border: none;
       font-family: 'Fragment Mono', monospace;
       font-size: 0.52rem;
-      letter-spacing: 0.12em;
-      color: #bbb;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      color: #aaa;
+      cursor: pointer;
+      padding: 10px 0;
     }
 
-    .doc-footer a {
-      color: #0000ff;
-      text-decoration: underline;
-      text-underline-offset: 3px;
+    .btn-add {
+      background: #0000ff;
+      border: none;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      padding: 10px 24px;
+      transition: background 0.2s;
     }
+
+    .btn-add:hover { background: #0000cc; }
   </style>
 </head>
 <body>
 
-  <!-- ── ENTRY: blue bg, white circle ── -->
+  <!-- ══ ENTRY ══ -->
   <div id="entry">
-    <div class="entry-circle" onclick="enter()"></div>
+    <div class="entry-circle" onclick="window.location.href='loupe-newsletter.html'"></div>
     <span class="entry-label">loupe — becs designed</span>
-    <span class="entry-hint">click →</span>
+    <a class="entry-catalogue-btn" href="loupe-catalogue.html">View catalogue →</a>
   </div>
 
-  <!-- ── PROJECT PAGE ── -->
-  <div id="project">
-    <div class="doc">
+  <!-- ══ CANVAS PAGE ══ -->
+  <div id="canvas-page">
 
-      <div class="doc-eyebrow">
-        <span>WK.006 — Loupe</span>
-        <a href="becs-designed.html">← becs designed</a>
+    <!-- sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">Loupe.</div>
+      <div class="sidebar-desc">A catalogue of specimens viewed under magnification, mapped by their physical properties.</div>
+      <a class="sidebar-link" href="becs-designed.html">← becs designed</a>
+
+      <div class="sidebar-section">Families</div>
+      <div class="sidebar-category active" data-cat="all" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#0000ff;"></span> All
+      </div>
+      <div class="sidebar-category" data-cat="botanical" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#4a7c59;"></span> Botanical
+      </div>
+      <div class="sidebar-category" data-cat="mineral" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#8c7a5e;"></span> Mineral
+      </div>
+      <div class="sidebar-category" data-cat="textile" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#c4726a;"></span> Textile
+      </div>
+      <div class="sidebar-category" data-cat="fluid" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#5b8fa8;"></span> Fluid
+      </div>
+      <div class="sidebar-category" data-cat="synthetic" onclick="filterCat(this)">
+        <span class="cat-dot" style="background:#9b7db6;"></span> Synthetic
       </div>
 
-      <h1><em>Loupe.</em></h1>
+      <a class="sidebar-back" href="becs-designed.html">↑ back to portfolio</a>
+    </div>
 
-      <div class="doc-meta">
-        <div class="doc-meta-item">
-          <div class="doc-meta-key">Type</div>
-          <div class="doc-meta-val">Brand identity</div>
-        </div>
-        <div class="doc-meta-item">
-          <div class="doc-meta-key">Year</div>
-          <div class="doc-meta-val">2025</div>
-        </div>
-        <div class="doc-meta-item">
-          <div class="doc-meta-key">Deliverables</div>
-          <div class="doc-meta-val">Mark, palette, type, guidelines</div>
-        </div>
-      </div>
+    <!-- main canvas -->
+    <div class="canvas-wrap" id="canvas">
 
-      <p>A study in reduction. Loupe asks: what is the minimum a brand needs to exist? The answer, it turns out, is almost nothing — a shape, a colour, an intention. Everything else is noise.</p>
+      <!-- axes -->
+      <div class="axis-h"></div>
+      <div class="axis-v"></div>
+      <div class="axis-label top">living</div>
+      <div class="axis-label bottom">non-living</div>
+      <div class="axis-label left">transparent</div>
+      <div class="axis-label right">opaque</div>
 
-      <p>The circle as the mark. Not a logo in the traditional sense — no wordmark, no tagline — just a single form that creates presence wherever it lands. Small on a business card. Enormous on a wall. It holds either way.</p>
-
-      <!-- hero image: blue bg, white circle -->
-      <div class="img-block">
-        <div style="background:#0000ff; height:420px; display:flex; align-items:center; justify-content:center;">
-          <div style="width:200px; height:200px; border-radius:50%; background:#ffffff;"></div>
-        </div>
-        <div class="img-caption">Primary application</div>
-      </div>
-
-      <h2>The brief</h2>
-
-      <p>The client came with a word: <em>loupe</em>. A magnifying glass. A jeweller's tool. Something that brings the overlooked into focus. They wanted a brand that felt like that — precise, unassuming, quietly attentive.</p>
-
-      <p>The instinct was to over-design it. To make the concept literal. To draw a lens, an eye, a circle with a handle. All of that got stripped away until what remained was the thing itself: a circle. Unadorned. Confident in its plainness.</p>
-
-      <h2>Colour</h2>
-
-      <p>Blue that doesn't explain itself. White that isn't trying. The palette does one thing and does it completely.</p>
-
-      <div class="swatches">
-        <div class="swatch">
-          <div class="swatch-block" style="background:#0000ff;"></div>
-          <div class="swatch-label" style="color:#0000ff;">#0000ff</div>
-        </div>
-        <div class="swatch">
-          <div class="swatch-block" style="background:#ffffff; border: 1px solid #eee;"></div>
-          <div class="swatch-label">#ffffff</div>
-        </div>
-        <div class="swatch">
-          <div class="swatch-block" style="background:#0a0a0a;"></div>
-          <div class="swatch-label">#0a0a0a</div>
-        </div>
-        <div class="swatch">
-          <div class="swatch-block" style="background:#f0f0f0;"></div>
-          <div class="swatch-label">#f0f0f0</div>
-        </div>
-      </div>
-
-      <!-- variations grid -->
-      <div class="img-block">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
-          <div style="background:#0000ff; aspect-ratio:1; display:flex; align-items:center; justify-content:center;">
-            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#ffffff;"></div>
-          </div>
-          <div style="background:#ffffff; aspect-ratio:1; border:1px solid #eee; display:flex; align-items:center; justify-content:center;">
-            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#0000ff;"></div>
-          </div>
-          <div style="background:#0a0a0a; aspect-ratio:1; display:flex; align-items:center; justify-content:center;">
-            <div style="width:38%; aspect-ratio:1; border-radius:50%; background:#0000ff;"></div>
-          </div>
-          <div style="background:#f0f0f0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;">
-            <div style="width:18%; aspect-ratio:1; border-radius:50%; background:#0a0a0a;"></div>
-            <span style="font-family:'Fragment Mono',monospace; font-size:0.44rem; letter-spacing:0.18em; text-transform:uppercase; color:#0a0a0a; opacity:0.4;">loupe</span>
-          </div>
-        </div>
-        <div class="img-caption">Mark on field, reverse, dark, and small-scale with wordmark</div>
-      </div>
-
-      <h2>What reduction teaches</h2>
-
-      <p>Every project that strips back to almost nothing teaches the same lesson: the temptation to add is almost always about the designer's discomfort, not the work's need. Loupe was a practice in sitting with that discomfort until it passed.</p>
-
-      <p>What remained after all the stripping was something that could hold attention without demanding it. That is, maybe, the goal every time.</p>
-
-      <hr/>
-
-      <p class="doc-footer">
-        For enquiries about this work — <a href="mailto:hello@becsdesigned.com">hello@becsdesigned.com</a>
-      </p>
+      <!-- add button -->
+      <button class="add-btn" onclick="showModal()" title="Add specimen">+</button>
 
     </div>
   </div>
 
+  <!-- tooltip -->
+  <div class="tooltip" id="tooltip">
+    <div class="tooltip-name" id="tt-name"></div>
+    <div class="tooltip-cat" id="tt-cat"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+  </div>
+
+  <!-- add specimen modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>Add specimen</h3>
+
+      <div class="modal-field">
+        <label class="modal-label">Name</label>
+        <input class="modal-input" id="m-name" type="text" placeholder="e.g. Onion skin cross-section"/>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Family</label>
+        <select class="modal-select" id="m-cat">
+          <option value="botanical">Botanical</option>
+          <option value="mineral">Mineral</option>
+          <option value="textile">Textile</option>
+          <option value="fluid">Fluid</option>
+          <option value="synthetic">Synthetic</option>
+        </select>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label">Notes</label>
+        <textarea class="modal-textarea" id="m-desc" placeholder="Observations..."></textarea>
+      </div>
+
+      <div class="modal-field">
+        <div class="modal-range-row">
+          <div>
+            <div class="modal-range-label">Transparent <span id="v-tx">50</span>% → Opaque</div>
+            <input type="range" id="m-x" min="5" max="95" value="50" oninput="document.getElementById('v-tx').textContent=this.value"/>
+          </div>
+          <div>
+            <div class="modal-range-label">Living <span id="v-ty">50</span>% → Non-living</div>
+            <input type="range" id="m-y" min="5" max="95" value="50" oninput="document.getElementById('v-ty').textContent=this.value"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="hideModal()">Cancel</button>
+        <button class="btn-add" onclick="addSpecimen()">Add to canvas</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ── enter ──
     function enter() {
       const entry = document.getElementById('entry');
-      const project = document.getElementById('project');
       entry.classList.add('out');
       setTimeout(() => {
         entry.style.display = 'none';
-        project.classList.add('visible');
-        document.body.style.background = '#ffffff';
+        const cp = document.getElementById('canvas-page');
+        cp.classList.add('visible');
+        document.body.style.background = '#f5f2eb';
+        document.body.style.overflow = 'hidden';
+        renderSpecimens();
       }, 700);
     }
+
+    // ── category colours ──
+    const catColors = {
+      botanical: '#4a7c59',
+      mineral:   '#8c7a5e',
+      textile:   '#c4726a',
+      fluid:     '#5b8fa8',
+      synthetic: '#9b7db6',
+    };
+
+    // ── specimen data ──
+    // x = 0 (transparent/left) → 100 (opaque/right)
+    // y = 0 (living/top)       → 100 (non-living/bottom)
+    let specimens = [
+      { id:1,  name: 'Moss cell wall',        cat: 'botanical',  x: 18, y: 12, desc: 'Thin-walled cells with visible chloroplasts. Near-transparent under white light.' },
+      { id:2,  name: 'Quartz grain',           cat: 'mineral',    x: 22, y: 88, desc: 'Crystalline silica. Highly transparent with conchoidal fracture surfaces.' },
+      { id:3,  name: 'Onion epidermis',        cat: 'botanical',  x: 30, y: 20, desc: 'Single layer of elongated cells, lightly stained. Classic first specimen.' },
+      { id:4,  name: 'Wool fibre',             cat: 'textile',    x: 55, y: 72, desc: 'Scaly cuticle surface visible. Semi-opaque, warm amber under transmitted light.' },
+      { id:5,  name: 'Blood smear',            cat: 'fluid',      x: 42, y: 8,  desc: 'Erythrocytes and leukocytes on glass slide. Stained with Giemsa.' },
+      { id:6,  name: 'Granite slice',          cat: 'mineral',    x: 78, y: 92, desc: 'Interlocking feldspar, quartz, and mica crystals. Opaque in reflected light.' },
+      { id:7,  name: 'Spider silk',            cat: 'textile',    x: 25, y: 55, desc: 'Single dragline thread. Optically clear, surprisingly uniform diameter.' },
+      { id:8,  name: 'Diatom frustule',        cat: 'fluid',      x: 35, y: 48, desc: 'Silica shell of a single-celled alga. Intricate radial symmetry.' },
+      { id:9,  name: 'Acrylic shard',          cat: 'synthetic',  x: 20, y: 82, desc: 'Cast polymer fragment. Very high optical clarity, no birefringence.' },
+      { id:10, name: 'Cork cross-section',     cat: 'botanical',  x: 60, y: 30, desc: 'Dead cells at time of observation but botanically classified as plant tissue.' },
+      { id:11, name: 'Charcoal particle',      cat: 'synthetic',  x: 88, y: 78, desc: 'Amorphous carbon. Fully opaque, absorbs all incident light.' },
+      { id:12, name: 'Pollen grain',           cat: 'botanical',  x: 48, y: 15, desc: 'Sporopollenin wall with species-specific surface texture. Birefringent under polarised light.' },
+      { id:13, name: 'Sea salt crystal',       cat: 'mineral',    x: 32, y: 96, desc: 'Cubic NaCl lattice. Transparent with sharp edges, strong birefringence.' },
+      { id:14, name: 'Polyester thread',       cat: 'textile',    x: 38, y: 68, desc: 'Uniform synthetic filament. Slight translucency, smooth surface — no cuticle.' },
+      { id:15, name: 'Cheek cell',             cat: 'fluid',      x: 50, y: 5,  desc: 'Human epithelial cell. Flat, irregular outline, nucleus visible after methylene blue stain.' },
+    ];
+
+    let nextId = 16;
+    let activeFilter = 'all';
+
+    // generate a random organic blob path inside a viewBox of 0 0 40 40
+    function blobPath(seed) {
+      const cx = 20, cy = 20;
+      const points = 7 + (seed % 4); // 7–10 points
+      const path = [];
+      for (let i = 0; i < points; i++) {
+        const angle = (i / points) * Math.PI * 2;
+        const r = 8 + ((seed * (i + 3) * 7919) % 7); // 8–14
+        const jx = ((seed * (i + 1) * 6271) % 5) - 2.5;
+        const jy = ((seed * (i + 2) * 4973) % 5) - 2.5;
+        const x = cx + Math.cos(angle) * r + jx;
+        const y = cy + Math.sin(angle) * r + jy;
+        path.push(`${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`);
+      }
+      path.push('Z');
+      return path.join(' ');
+    }
+
+    // ── render ──
+    function renderSpecimens() {
+      const canvas = document.getElementById('canvas');
+      canvas.querySelectorAll('.specimen').forEach(el => el.remove());
+
+      const cw = canvas.offsetWidth;
+      const ch = canvas.offsetHeight;
+      const pad = 80;
+
+      specimens.forEach(sp => {
+        const el = document.createElement('div');
+        el.className = 'specimen';
+        el.dataset.id = sp.id;
+        el.dataset.cat = sp.cat;
+
+        if (activeFilter !== 'all' && sp.cat !== activeFilter) {
+          el.classList.add('hidden');
+        }
+
+        const px = pad + (sp.x / 100) * (cw - pad * 2);
+        const py = pad + (sp.y / 100) * (ch - pad * 2);
+        el.style.left = px + 'px';
+        el.style.top  = py + 'px';
+
+        // tiny blob SVG
+        const size = 28 + (sp.id % 4) * 6; // 28–46px
+        const color = catColors[sp.cat];
+        const rot = ((sp.id * 37) % 22) - 11;
+        el.style.transform = `rotate(${rot}deg)`;
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 40 40');
+        svg.setAttribute('width', size);
+        svg.setAttribute('height', size);
+        svg.style.display = 'block';
+        svg.style.filter = 'drop-shadow(1px 2px 4px rgba(0,0,0,0.15))';
+
+        const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pathEl.setAttribute('d', blobPath(sp.id * 31 + 7));
+        pathEl.setAttribute('fill', color);
+        pathEl.setAttribute('fill-opacity', '0.82');
+        svg.appendChild(pathEl);
+
+        const label = document.createElement('div');
+        label.className = 'specimen-label';
+        label.textContent = sp.name;
+
+        el.appendChild(svg);
+        el.appendChild(label);
+        el.addEventListener('click', (e) => showTooltip(e, sp));
+        canvas.appendChild(el);
+      });
+    }
+
+    // ── tooltip ──
+    const tooltip = document.getElementById('tooltip');
+
+    function showTooltip(e, sp) {
+      document.getElementById('tt-name').textContent = sp.name;
+      document.getElementById('tt-cat').textContent = sp.cat;
+      document.getElementById('tt-desc').textContent = sp.desc;
+      tooltip.classList.add('show');
+      positionTooltip(e.clientX, e.clientY);
+    }
+
+    function positionTooltip(mx, my) {
+      const tw = 240, th = 120;
+      let x = mx + 16;
+      let y = my + 16;
+      if (x + tw > window.innerWidth)  x = mx - tw - 16;
+      if (y + th > window.innerHeight) y = my - th - 16;
+      tooltip.style.left = x + 'px';
+      tooltip.style.top  = y + 'px';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.specimen') && !e.target.closest('.tooltip')) {
+        tooltip.classList.remove('show');
+      }
+    });
+
+    // ── filter ──
+    function filterCat(el) {
+      document.querySelectorAll('.sidebar-category').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      activeFilter = el.dataset.cat;
+      document.querySelectorAll('.specimen').forEach(sp => {
+        if (activeFilter === 'all' || sp.dataset.cat === activeFilter) {
+          sp.classList.remove('hidden');
+        } else {
+          sp.classList.add('hidden');
+        }
+      });
+    }
+
+    // ── modal ──
+    function showModal() {
+      document.getElementById('modal').classList.add('show');
+    }
+
+    function hideModal() {
+      document.getElementById('modal').classList.remove('show');
+    }
+
+    function addSpecimen() {
+      const name = document.getElementById('m-name').value.trim();
+      if (!name) return;
+      const sp = {
+        id:   nextId++,
+        name: name,
+        cat:  document.getElementById('m-cat').value,
+        x:    parseInt(document.getElementById('m-x').value),
+        y:    parseInt(document.getElementById('m-y').value),
+        desc: document.getElementById('m-desc').value.trim() || 'No notes.',
+      };
+      specimens.push(sp);
+      renderSpecimens();
+      hideModal();
+      // reset
+      document.getElementById('m-name').value = '';
+      document.getElementById('m-desc').value = '';
+      document.getElementById('m-x').value = 50;
+      document.getElementById('m-y').value = 50;
+      document.getElementById('v-tx').textContent = '50';
+      document.getElementById('v-ty').textContent = '50';
+    }
+
+    // close modal on overlay click
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) hideModal();
+    });
+
+    window.addEventListener('resize', () => {
+      if (document.getElementById('canvas-page').classList.contains('visible')) {
+        renderSpecimens();
+      }
+    });
   </script>
 
 </body>
