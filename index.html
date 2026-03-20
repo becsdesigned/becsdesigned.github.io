@@ -193,6 +193,741 @@
     }
 
     .project-col {
+      flex: 0 0 260px;
+      width: 260px;
+      border-right: 1px solid rgba(0,0,0,0.2);
+      min-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--black);
+      position: relative;
+      transition: filter 0.2s;
+    }
+
+    .project-col:last-child { border-right: none; }
+
+    /* colour per column */
+    .pc-meet { background: #ffffff;  color: #E20000; }
+    .pc-1    { background: #0000ff;  color: #ffffff; }
+    .pc-2    { background: #d9ed92;  color: #52b69a; }
+    .pc-3    { background: #B4AE00;  color: #ffffff; }
+    .pc-4    { background: #76112D;  color: #94DDFF; }
+    .pc-poem { background: #000000;  color: #ffffff; }
+    .pc-gwj  { background: #6A421B;  color: #F9F3EB; }
+
+    /* hover: darken slightly */
+    .project-col:hover { filter: brightness(0.93); }
+
+    /* sticky Meet Becs column */
+    .pc-meet {
+      position: sticky;
+      left: 0;
+      z-index: 20;
+      flex-shrink: 0;
+      width: 260px;
+      min-height: 75vh;
+      border-right: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .col-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.4rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 10px;
+      color: inherit;
+    }
+
+    .col-title {
+      font-family: var(--grotesk);
+      font-weight: 400;
+      font-size: clamp(1.1rem, 2.2vw, 1.9rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      display: block;
+      margin-bottom: 8px;
+      color: inherit;
+    }
+
+    .col-subtitle {
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      display: block;
+      color: inherit;
+    }
+
+    .col-top {
+      padding: 24px 18px 18px;
+      border-bottom: 1px solid rgba(128,128,128,0.25);
+    }
+
+    .col-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(128,128,128,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .col-body {
+      padding: 18px 18px;
+      flex: 1;
+    }
+
+    .col-desc {
+      font-family: var(--serif);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      opacity: 0.8;
+      font-weight: 300;
+      color: inherit;
+    }
+
+    .col-footer {
+      padding: 14px 18px;
+      border-top: 1px solid rgba(128,128,128,0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .col-footer-label {
+      font-family: var(--mono);
+      font-size: 0.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      color: inherit;
+    }
+
+    .col-footer-arrow {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      opacity: 0.55;
+      transition: opacity 0.2s, transform 0.2s;
+      color: inherit;
+    }
+      transition: opacity 0.2s, transform 0.2s;
+      color: inherit;
+    }
+
+    .project-col:hover .col-footer-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* ══════════════════════════════
+       INFO OVERLAY
+    ══════════════════════════════ */
+
+    #info-page {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: var(--white);
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+
+    #info-page.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+
+    .info-bar {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      z-index: 10;
+    }
+
+    .info-bar-title {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .info-close {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--black);
+      transition: color 0.2s;
+    }
+
+    .info-close:hover { color: var(--blue); }
+
+    .info-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .info-col {
+      padding: 60px 44px 80px;
+      border-right: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .info-col:last-child { border-right: none; }
+
+    .info-col-label {
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      opacity: 0.55;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .info-col h2 {
+      font-family: var(--grotesk);
+      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+
+    .info-col h2 em {
+      font-style: italic;
+      font-family: var(--serif);
+      font-weight: 300;
+    }
+
+    .info-col p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: rgba(0,0,0,0.55);
+      margin-bottom: 14px;
+    }
+
+    .svc-row {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .svc-name {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 300;
+      margin-bottom: 2px;
+    }
+
+    .svc-desc {
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.4);
+      line-height: 1.7;
+    }
+
+    .info-field { margin-bottom: 20px; }
+
+    .info-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      opacity: 0.5;
+      margin-bottom: 6px;
+    }
+
+    .info-input, .info-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--black);
+      padding: 8px 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .info-input:focus, .info-textarea:focus { border-color: var(--blue); }
+    .info-textarea { resize: none; min-height: 80px; }
+
+    .info-submit {
+      margin-top: 16px;
+      background: var(--black);
+      border: none;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      padding: 13px 28px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .info-submit:hover { background: var(--blue); }
+
+    .info-meta {
+      margin-top: 36px;
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.25);
+      line-height: 2.4;
+    }
+
+    @media (max-width: 900px) {
+      .col-nav { display: none; }
+      .info-inner { grid-template-columns: 1fr; }
+      .info-col { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      .info-col:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <span class="top-nav-item">becs designed</span>
+    <span class="top-nav-item dim">Art direction &amp; graphic design</span>
+    <span class="top-nav-item">Broward, FL</span>
+  </nav>
+
+  <!-- INFO OVERLAY -->
+  <div id="info-page">
+    <div class="info-bar">
+      <span class="info-bar-title">becs designed — info</span>
+      <button class="info-close" onclick="closeInfo()">Close ×</button>
+    </div>
+    <div class="info-inner">
+
+      <div class="info-col">
+        <span class="info-col-label">About</span>
+        <h2>Bold ideas.<br/><em>Clean execution.</em></h2>
+        <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
+        <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
+        <div class="info-meta">Broward, FL<br/>Available for projects<br/><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="472f222b2b2807252224342322342e202922236924282a">[email&#160;protected]</a></div>
+      </div>
+
+      <div class="info-col">
+        <span class="info-col-label">Services</span>
+        <h2>What<br/>I do.</h2>
+        <div class="svc-row"><div class="svc-name">Brand Identity</div><div class="svc-desc">Logo, mark system, colour, type, guidelines.</div></div>
+        <div class="svc-row"><div class="svc-name">Web Design</div><div class="svc-desc">Landing pages, full sites, digital campaigns.</div></div>
+        <div class="svc-row"><div class="svc-name">Print &amp; Collateral</div><div class="svc-desc">Cards, packaging, merch, event materials.</div></div>
+        <div class="svc-row"><div class="svc-name">Social &amp; Content</div><div class="svc-desc">Feed graphics, carousels, campaign assets.</div></div>
+        <div class="svc-row"><div class="svc-name">Creative Direction</div><div class="svc-desc">Visual strategy for shoots and campaigns.</div></div>
+        <div class="svc-row" style="border-bottom:none;"><div class="svc-name">Custom Projects</div><div class="svc-desc">Got something unusual in mind? Let's talk.</div></div>
+      </div>
+
+      <div class="info-col">
+        <span class="info-col-label">Contact</span>
+        <h2>Let's make<br/>something<br/><em>great.</em></h2>
+        <div class="info-field">
+          <label class="info-label">Name</label>
+          <input class="info-input" type="text" placeholder="Your name"/>
+        </div>
+        <div class="info-field">
+          <label class="info-label">Email</label>
+          <input class="info-input" type="email" placeholder="your@email.com"/>
+        </div>
+        <div class="info-field">
+          <label class="info-label">Project</label>
+          <textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea>
+        </div>
+        <button class="info-submit" id="sendBtn">Send message</button>
+        <div class="info-meta">@becsdesigned<br/><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="026a676e6e6d42606761716667716b656c67662c616d6f">[email&#160;protected]</a></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero-title">becs designed</h1>
+    <div class="hero-sub">
+      Art direction<br/>
+      &amp; graphic design<br/>
+      Broward, 2025
+    </div>
+  </section>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+
+    <!-- Project columns (Meet Becs is sticky and first) -->
+    <div class="col-projects">
+
+      <!-- Meet Becs — sticky, white bg, red text -->
+      <div class="project-col pc-meet">
+        <div class="col-top">
+          <span class="col-eyebrow" style="color:#E20000;">Meet becs</span>
+          <span class="col-title">Becs.</span>
+          <span class="col-subtitle" style="color:#E20000;">Designer, Broward</span>
+        </div>
+        <div class="col-body" style="flex:1; display:flex; flex-direction:column; gap:24px;">
+          <p class="col-desc" style="font-size:0.82rem; color:#E20000;">Art direction &amp; graphic design with a point of view. Every shot intentional, every element earning its place.</p>
+
+          <div>
+            <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:#E20000;opacity:0.5;margin-bottom:10px;">Services</div>
+            <div style="font-family:var(--serif);font-size:0.85rem;color:#E20000;line-height:2.1;opacity:0.8;">
+              Brand Identity<br/>
+              Web Design<br/>
+              Print &amp; Collateral<br/>
+              Social &amp; Content<br/>
+              Creative Direction
+            </div>
+          </div>
+
+          <div style="margin-top:auto;">
+            <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:#E20000;opacity:0.5;margin-bottom:12px;">Contact</div>
+            <div style="margin-bottom:10px;">
+              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:#E20000;opacity:0.4;margin-bottom:4px;">Email</div>
+              <div style="font-family:var(--serif);font-size:0.85rem;color:#E20000;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86eee3eaeae9c6e4e3e5f5e2e3f5efe1e8e3e2a8e5e9eb">[email&#160;protected]</a></div>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:#E20000;opacity:0.4;margin-bottom:4px;">Instagram</div>
+              <div style="font-family:var(--serif);font-size:0.85rem;color:#E20000;">@becsdesigned</div>
+            </div>
+            <div>
+              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:#E20000;opacity:0.4;margin-bottom:8px;">Send a message</div>
+              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(226,0,0,0.3);font-family:var(--serif);font-size:0.82rem;color:#E20000;padding:6px 0;outline:none;margin-bottom:8px;" type="text" placeholder="Your name" />
+              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(226,0,0,0.3);font-family:var(--serif);font-size:0.82rem;color:#E20000;padding:6px 0;outline:none;margin-bottom:8px;" type="email" placeholder="your@email.com" />
+              <textarea style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(226,0,0,0.3);font-family:var(--serif);font-size:0.82rem;color:#E20000;padding:6px 0;outline:none;resize:none;min-height:56px;margin-bottom:12px;" placeholder="Your project..."></textarea>
+              <button onclick="handleSend(this)" style="background:#E20000;border:none;font-family:var(--mono);font-size:0.42rem;letter-spacing:0.16em;text-transform:uppercase;color:#ffffff;padding:10px 20px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-footer" style="border-top:1px solid rgba(226,0,0,0.15);">
+          <span class="col-footer-label" style="color:#E20000;">© 2025</span>
+          <a href="loupe.html" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:#E20000;text-decoration:none;opacity:0.6;">Loupe ↗</a>
+        </div>
+      </div>
+
+      <!-- Loupe -->
+      <a class="project-col pc-1" href="loupe.html">
+        <div class="col-top">
+          <span class="col-eyebrow">WK.006 · Brand identity, 2025</span>
+          <span class="col-title">Loupe</span>
+          <span class="col-subtitle">A study in reduction</span>
+        </div>
+        <div class="col-image">
+          <div style="width:55%;aspect-ratio:1;border-radius:50%;background:#ffffff;"></div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc">A brand identity built around a single mark. The circle as lens — precise, unassuming, quietly attentive. Everything stripped back until only the essential remained.</p>
+        </div>
+        <div class="col-footer">
+          <span class="col-footer-label">View project</span>
+          <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- [your poem here] -->
+      <a class="project-col" style="background:#000000;color:#ffffff;" href="#">
+        <div class="col-top" style="border-bottom:1px solid rgba(255,255,255,0.12);">
+          <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
+          <span class="col-title" style="color:#ffffff;">[your poem here]</span>
+          <span class="col-subtitle" style="color:#ffffff;">Writing, 2025</span>
+        </div>
+        <div class="col-image" style="border-bottom:1px solid rgba(255,255,255,0.12);">
+          <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">
+            [ &nbsp; &nbsp; &nbsp; ]<br/>
+            [ &nbsp; &nbsp; &nbsp; ]<br/>
+            [ &nbsp; &nbsp; &nbsp; ]
+          </div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc" style="color:#ffffff;">A collection of poems. Words placed carefully, like objects on a table.</p>
+        </div>
+        <div class="col-footer" style="border-top:1px solid rgba(255,255,255,0.12);">
+          <span class="col-footer-label" style="color:#ffffff;">View project</span>
+          <span class="col-footer-arrow" style="color:#ffffff;">→</span>
+        </div>
+      </a>
+
+      <!-- growwithjo -->
+      <a class="project-col" style="background:#6A421B;color:#F9F3EB;" href="#">
+        <div class="col-top" style="border-bottom:1px solid rgba(249,243,235,0.15);">
+          <span class="col-eyebrow" style="color:#F9F3EB;">growwithjo</span>
+          <span class="col-title" style="color:#F9F3EB;">growwithjo</span>
+          <span class="col-subtitle" style="color:#F9F3EB;">Brand &amp; digital, 2024</span>
+        </div>
+        <div class="col-image" style="border-bottom:1px solid rgba(249,243,235,0.15);">
+          <div style="width:55%;aspect-ratio:1;border-radius:50%;background:rgba(249,243,235,0.2);"></div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc" style="color:#F9F3EB;">Brand and digital work for a women's home fitness platform. Identity, web, and content across a growing community.</p>
+        </div>
+        <div class="col-footer" style="border-top:1px solid rgba(249,243,235,0.15);">
+          <span class="col-footer-label" style="color:#F9F3EB;">View project</span>
+          <span class="col-footer-arrow" style="color:#F9F3EB;">→</span>
+        </div>
+      </a>
+
+      <!-- Midnight Studio -->
+      <a class="project-col pc-2" href="#">
+        <div class="col-top">
+          <span class="col-eyebrow">WK.001 · Brand identity, 2024</span>
+          <span class="col-title">Midnight Studio Co.</span>
+          <span class="col-subtitle">Logo system</span>
+        </div>
+        <div class="col-image">
+          <div style="width:50%;aspect-ratio:1;background:rgba(82,182,154,0.35);transform:rotate(12deg);"></div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc">Full brand identity for a creative studio — mark, type system, colour palette, and guidelines built for longevity and flexibility.</p>
+        </div>
+        <div class="col-footer">
+          <span class="col-footer-label">View project</span>
+          <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- Pulse Agency -->
+      <a class="project-col pc-3" href="#">
+        <div class="col-top">
+          <span class="col-eyebrow">WK.002 · Web design, 2024</span>
+          <span class="col-title">Pulse Agency</span>
+          <span class="col-subtitle">Art direction</span>
+        </div>
+        <div class="col-image">
+          <div style="width:65%;aspect-ratio:4/3;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
+            <div style="width:80%;height:1px;background:rgba(255,255,255,0.4);"></div>
+          </div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc">Site redesign and visual direction for a creative agency. Clean structure, considered spacing, deliberate type choices.</p>
+        </div>
+        <div class="col-footer">
+          <span class="col-footer-label">View project</span>
+          <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- Noma Botanicals -->
+      <a class="project-col pc-4" href="#">
+        <div class="col-top">
+          <span class="col-eyebrow">WK.003 · Packaging, 2024</span>
+          <span class="col-title">Noma Botanicals</span>
+          <span class="col-subtitle">Brand &amp; packaging</span>
+        </div>
+        <div class="col-image">
+          <div style="width:36%;aspect-ratio:1/2;background:rgba(148,221,255,0.3);border-radius:40px 40px 0 0;"></div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc">Packaging system and brand identity for a botanical skincare line. Earthy palette, confident type, tactile print finishes.</p>
+        </div>
+        <div class="col-footer">
+          <span class="col-footer-label">View project</span>
+          <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    function openInfo() {
+      document.getElementById('info-page').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeInfo() {
+      document.getElementById('info-page').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleSend(btn) {
+      btn.textContent = 'Sent ✓';
+      btn.style.opacity = '0.6';
+      setTim
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(4px);
+    }
+
+    .top-nav-item {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .top-nav-item.dim { color: rgba(0,0,0,0.35); }
+    .top-nav-item:hover { color: var(--blue); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 0 12px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-family: var(--grotesk);
+      font-weight: 400;
+      font-size: clamp(8vw, 13.6vw, 13.6vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: var(--black);
+      position: sticky;
+      bottom: 12px;
+    }
+
+    .hero-sub {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      font-family: var(--mono);
+      font-size: 0.46rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      text-align: right;
+      line-height: 2;
+    }
+
+    /* ══════════════════════════════
+       MAIN LAYOUT
+    ══════════════════════════════ */
+
+    .layout {
+      display: flex;
+      border-top: 1px solid var(--black);
+      overflow-x: auto;
+    }
+
+    .col-projects {
+      flex: 1;
+      display: flex;
+      min-width: 0;
+    }
+
+    /* ── STICKY LEFT COLUMN ── */
+    .col-nav {
+      width: 200px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--black);
+      background: var(--white);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 22px 28px;
+    }
+
+    .col-nav-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      margin-bottom: 28px;
+    }
+
+    .col-nav-links { display: flex; flex-direction: column; flex: 1; }
+
+    .col-nav-link {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--black);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      transition: color 0.15s, letter-spacing 0.2s;
+      display: block;
+    }
+
+    .col-nav-link:hover { color: var(--blue); letter-spacing: 0.01em; }
+    .col-nav-link em { font-style: italic; }
+
+    .col-nav-divider {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      margin: 20px 0 16px;
+    }
+
+    .col-nav-external {
+      font-family: var(--mono);
+      font-size: 0.44rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.15s;
+    }
+    .col-nav-external:hover { color: var(--blue); }
+
+    .col-nav-footer {
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.25);
+      line-height: 2;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    /* ── PROJECT COLUMNS ── */
+    .col-projects {
+      flex: 1;
+      display: flex;
+    }
+
+    .project-col {
       flex: 0 0 200px;
       width: 200px;
       border-right: 1px solid rgba(0,0,0,0.2);
