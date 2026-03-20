@@ -109,12 +109,91 @@
     }
     .sidebar-back:hover { color: rgba(0,0,0,0.8); }
 
+    /* ── VIEW TOGGLE ── */
+    .view-toggle {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+      margin-top: 4px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 7px 0;
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.15);
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn.active {
+      background: #0000ff;
+      border-color: #0000ff;
+      color: #ffffff;
+    }
+
+    .toggle-btn:hover:not(.active) {
+      border-color: rgba(0,0,0,0.35);
+      color: rgba(0,0,0,0.7);
+    }
+
     /* ── CANVAS ── */
     .canvas-wrap {
       flex: 1;
       position: relative;
       overflow: hidden;
       height: 100vh;
+    }
+
+    /* ── GRID VIEW ── */
+    .grid-view {
+      display: none;
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 40px 36px;
+      background: #f5f2eb;
+    }
+
+    .grid-view.visible { display: block; }
+
+    .grid-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 28px 20px;
+    }
+
+    .grid-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .grid-item:hover .grid-blob { transform: scale(1.08); }
+
+    .grid-blob {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .grid-item-name {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.5);
+      text-align: center;
+      line-height: 1.5;
     }
 
     .axis-h {
@@ -344,6 +423,12 @@
     <div class="sidebar-desc">Specimens mapped by physical properties observed under magnification.</div>
     <a class="sidebar-link" href="loupe.html">← loupe</a>
 
+    <!-- view toggle -->
+    <div class="view-toggle">
+      <button class="toggle-btn active" id="btn-axis" onclick="setView('axis')">Axis</button>
+      <button class="toggle-btn" id="btn-grid" onclick="setView('grid')">Grid</button>
+    </div>
+
     <div class="sidebar-section">Families</div>
     <div class="sidebar-category active" data-cat="all" onclick="filterCat(this)">
       <span class="cat-dot" style="background:#0000ff;"></span> All
@@ -368,7 +453,7 @@
     <a class="sidebar-back" style="padding-top:8px;" href="becs-designed.html">← becs designed</a>
   </div>
 
-  <!-- CANVAS -->
+  <!-- CANVAS (axis view) -->
   <div class="canvas-wrap" id="canvas">
     <div class="axis-h"></div>
     <div class="axis-v"></div>
@@ -377,6 +462,11 @@
     <div class="axis-label left">transparent</div>
     <div class="axis-label right">opaque</div>
     <button class="add-btn" onclick="showModal()" title="Add specimen">+</button>
+  </div>
+
+  <!-- GRID VIEW -->
+  <div class="grid-view" id="grid-view">
+    <div class="grid-items" id="grid-items"></div>
   </div>
 
   <!-- TOOLTIP -->
@@ -428,6 +518,74 @@
   </div>
 
   <script>
+    // ── gradient per category ──
+    const catGradients = {
+      botanical: ['#4a7c59', '#a8d5a2', '#f5c842'],
+      mineral:   ['#8c7a5e', '#c4b49a', '#e8d5b0'],
+      textile:   ['#c4726a', '#e8a89a', '#f5d4a0'],
+      fluid:     ['#5b8fa8', '#9ac4d8', '#c8e8f0'],
+      synthetic: ['#9b7db6', '#c4a8d8', '#e8c4f0'],
+    };
+
+    function blobGradient(sp) {
+      const g = catGradients[sp.cat] || ['#888', '#ccc', '#eee'];
+      // vary gradient angle by id for variety
+      const angle = (sp.id * 47) % 360;
+      return `radial-gradient(circle at ${30 + (sp.id * 17) % 40}% ${20 + (sp.id * 23) % 50}%, ${g[0]}, ${g[1]} 50%, ${g[2]})`;
+    }
+
+    // ── view toggle ──
+    let currentView = 'axis';
+
+    function setView(view) {
+      currentView = view;
+      const canvas   = document.getElementById('canvas');
+      const gridView = document.getElementById('grid-view');
+      const btnAxis  = document.getElementById('btn-axis');
+      const btnGrid  = document.getElementById('btn-grid');
+
+      if (view === 'axis') {
+        canvas.style.display = '';
+        gridView.classList.remove('visible');
+        btnAxis.classList.add('active');
+        btnGrid.classList.remove('active');
+        renderSpecimens();
+      } else {
+        canvas.style.display = 'none';
+        gridView.classList.add('visible');
+        btnAxis.classList.remove('active');
+        btnGrid.classList.add('active');
+        renderGrid();
+      }
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('grid-items');
+      container.innerHTML = '';
+
+      const visible = activeFilter === 'all'
+        ? specimens
+        : specimens.filter(s => s.cat === activeFilter);
+
+      visible.forEach(sp => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.addEventListener('click', e => showTooltip(e, sp));
+
+        const blob = document.createElement('div');
+        blob.className = 'grid-blob';
+        blob.style.background = blobGradient(sp);
+
+        const name = document.createElement('div');
+        name.className = 'grid-item-name';
+        name.textContent = sp.name;
+
+        item.appendChild(blob);
+        item.appendChild(name);
+        container.appendChild(item);
+      });
+    }
+
     const catColors = {
       botanical: '#4a7c59',
       mineral:   '#8c7a5e',
@@ -548,10 +706,14 @@
       document.querySelectorAll('.sidebar-category').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
       activeFilter = el.dataset.cat;
-      document.querySelectorAll('.specimen').forEach(sp => {
-        if (activeFilter === 'all' || sp.dataset.cat === activeFilter) sp.classList.remove('hidden');
-        else sp.classList.add('hidden');
-      });
+      if (currentView === 'axis') {
+        document.querySelectorAll('.specimen').forEach(sp => {
+          if (activeFilter === 'all' || sp.dataset.cat === activeFilter) sp.classList.remove('hidden');
+          else sp.classList.add('hidden');
+        });
+      } else {
+        renderGrid();
+      }
     }
 
     function showModal() { document.getElementById('modal').classList.add('show'); }
