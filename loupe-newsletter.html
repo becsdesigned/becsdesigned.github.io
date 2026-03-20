@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loupe — Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      background: #0000ff;
+      color: #ffffff;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* top bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .top-bar-brand {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    .top-bar-back {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .top-bar-back:hover { color: #ffffff; }
+
+    /* main */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+
+    .inner {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* small circle mark */
+    .mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+      margin-bottom: 48px;
+    }
+
+    h1 {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+
+    h1 em { font-style: italic; }
+
+    .desc {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+      margin-bottom: 48px;
+      max-width: 380px;
+    }
+
+    /* form */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .field input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #ffffff;
+      padding: 10px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .field input::placeholder { color: rgba(255,255,255,0.25); }
+    .field input:focus { border-color: rgba(255,255,255,0.8); }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .submit-btn {
+      background: #ffffff;
+      border: none;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #0000ff;
+      padding: 14px 36px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: rgba(255,255,255,0.85);
+    }
+
+    .submit-note {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* success state */
+    .success {
+      display: none;
+      text-align: left;
+      padding-top: 8px;
+    }
+
+    .success.show { display: block; }
+
+    .success-mark {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .success-sub {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* footer */
+    footer {
+      padding: 24px 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.46rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+    .footer-copy {
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 600px) {
+      .top-bar { padding: 20px 24px; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a class="top-bar-brand" href="loupe.html">loupe</a>
+    <a class="top-bar-back" href="loupe.html">← back</a>
+  </div>
+
+  <div class="main">
+    <div class="inner">
+
+      <div class="mark"></div>
+
+      <h1>Stay<br/><em>close.</em></h1>
+      <p class="desc">A slow newsletter about what I find under the lens — specimens, observations, and the things that only become visible when you look long enough.</p>
+
+      <div class="form" id="form">
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" type="text" placeholder="Your name" autocomplete="off"/>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" type="email" placeholder="your@email.com" autocomplete="off"/>
+        </div>
+        <div class="submit-row">
+          <button class="submit-btn" onclick="handleSubmit()">Subscribe</button>
+          <span class="submit-note">No frequency promises. Unsubscribe any time.</span>
+        </div>
+      </div>
+
+      <div class="success" id="success">
+        <div class="success-mark">You're in.</div>
+        <div class="success-sub">Watch your inbox.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="loupe.html">loupe</a>
+      <a href="loupe-catalogue.html">catalogue</a>
+      <a href="becs-designed.html">becs designed</a>
+    </div>
+    <span class="footer-copy">© 2025</span>
+  </footer>
+
+  <script>
+    function handleSubmit() {
+      const name  = document.getElementById('f-name').value.trim();
+      const email = document.getElementById('f-email').value.trim();
+      if (!email) {
+        document.getElementById('f-email').focus();
+        return;
+      }
+      document.getElementById('form').style.display = 'none';
+      document.getElementById('success').classList.add('show');
+    }
+
+    // allow enter key on inputs
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') handleSubmit();
+      });
+    });
+  </script>
+
+</body>
+</html>
