@@ -83,11 +83,10 @@
       /* centred; children use transform to offset */
     }
 
-    /* big circle — newsletter */
     .circle-newsletter {
       position: absolute;
-      width: min(52vw, 52vh);
-      height: min(52vw, 52vh);
+      width: min(78vw, 78vh);
+      height: min(78vw, 78vh);
       border-radius: 50%;
       background: #ffffff;
       cursor: pointer;
@@ -133,6 +132,40 @@
       text-transform: uppercase;
       color: rgba(255,255,255,0.6);
       display: block;
+    }
+
+    /* catalogue button — top right */
+    .catalogue-btn {
+      position: absolute;
+      top: 32px;
+      right: 36px;
+      font-family: 'Fragment Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 10px 20px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      z-index: 10;
+    }
+
+    .catalogue-btn:hover {
+      background: #ffffff;
+      color: #0000ff;
+      border-color: #ffffff;
+    }
+
+    #entry:has(.circle-newsletter:hover) .catalogue-btn {
+      color: #0000ff;
+      border-color: rgba(0,0,255,0.4);
+    }
+
+    #entry:has(.circle-newsletter:hover) .catalogue-btn:hover {
+      background: #0000ff;
+      color: #ffffff;
+      border-color: #0000ff;
     }
 
 
@@ -520,6 +553,8 @@
 
   <!-- ══ ENTRY ══ -->
   <div id="entry">
+
+    <a class="catalogue-btn" href="loupe-catalogue.html">View catalogue →</a>
 
     <!-- orbit system, centred on page -->
     <div class="orbit-system">
