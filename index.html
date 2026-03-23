@@ -316,9 +316,6 @@
       transition: opacity 0.2s, transform 0.2s;
       color: inherit;
     }
-      transition: opacity 0.2s, transform 0.2s;
-      color: inherit;
-    }
 
     .project-col:hover .col-footer-arrow {
       opacity: 1;
@@ -534,7 +531,7 @@
         <h2>Bold ideas.<br/><em>Clean execution.</em></h2>
         <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
         <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
-        <div class="info-meta">Broward, FL<br/>Available for projects<br/><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="472f222b2b2807252224342322342e202922236924282a">[email&#160;protected]</a></div>
+        <div class="info-meta">Broward, FL<br/>Available for projects<br/>hello@becsdesigned.com</div>
       </div>
 
       <div class="info-col">
@@ -564,7 +561,7 @@
           <textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea>
         </div>
         <button class="info-submit" id="sendBtn">Send message</button>
-        <div class="info-meta">@becsdesigned<br/><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="026a676e6e6d42606761716667716b656c67662c616d6f">[email&#160;protected]</a></div>
+        <div class="info-meta">@becsdesigned<br/>hello@becsdesigned.com</div>
       </div>
 
     </div>
@@ -583,10 +580,9 @@
   <!-- MAIN LAYOUT -->
   <div class="layout">
 
-    <!-- Project columns (Meet Becs is sticky and first) -->
     <div class="col-projects">
 
-      <!-- Meet Becs — white bg, black text, red accent -->
+      <!-- Meet Becs -->
       <div class="project-col pc-meet">
         <div class="col-top">
           <span class="col-eyebrow">Meet becs</span>
@@ -611,7 +607,7 @@
             <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:12px;">Contact</div>
             <div style="margin-bottom:10px;">
               <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Email</div>
-              <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ddb5b8b1b1b29dbfb8beaeb9b8aeb4bab3b8b9f3beb2b0">[email&#160;protected]</a></div>
+              <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;">hello@becsdesigned.com</div>
             </div>
             <div style="margin-bottom:10px;">
               <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Instagram</div>
@@ -651,8 +647,8 @@
         </div>
       </a>
 
-      <!-- [your poem here] -->
-      <a class="project-col" style="background:#302F2F;color:#ffffff;" href="#">
+      <!-- [your poem here] — updated href -->
+      <a class="project-col" style="background:#302F2F;color:#ffffff;" href="https://www.yourpoemhere.com/" target="_blank" rel="noopener noreferrer">
         <div class="col-top">
           <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
           <span class="col-title" style="color:#ffffff;">[your poem here]</span>
@@ -755,10 +751,22 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     function openInfo() {
       document.getElementById('info-page').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
-    function closeInfo(
+    function closeInfo() {
+      document.getElementById('info-page').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleSend(btn) {
+      btn.textContent = 'Sent ✓';
+      btn.style.opacity = '0.5';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>
