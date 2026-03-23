@@ -3,298 +3,678 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loupe — Newsletter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <title>Loupe — Subscribe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <script src="https://js.stripe.com/v3/"></script>
   <style>
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f7f4ee;
+      --warm: #e9e4d8;
+      --accent: #1a1a1a;
+      --lens: #3d3d3d;
+      --muted: #888078;
+      --rule: rgba(0,0,0,0.12);
+      --red: #c0392b;
+      --green: #2e7d5e;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
 
     body {
-      background: #0000ff;
-      color: #ffffff;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      display: flex;
-      flex-direction: column;
+      font-family: 'Space Mono', monospace;
+      background: var(--paper);
+      color: var(--ink);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* top bar */
-    .top-bar {
+    /* ── CROSSHAIR BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      height: 52px;
-      flex-shrink: 0;
+      justify-content: space-between;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--rule);
+      background: var(--paper);
     }
 
-    .top-bar a {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.54rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    .wordmark {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
       text-decoration: none;
-      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .top-bar a:hover { opacity: 0.7; }
-
-    .top-bar-brand { color: rgba(255,255,255,0.5); }
-    .top-bar-links { display: flex; gap: 28px; }
-    .top-bar-link  { color: rgba(255,255,255,0.35); }
-
-    /* main */
-    .main {
-      flex: 1;
+    .wordmark .lens-icon {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px;
+      position: relative;
     }
 
-    .inner {
-      width: 100%;
-      max-width: 480px;
-    }
-
-    /* small circle mark */
-    .mark {
-      width: 48px;
-      height: 48px;
+    .wordmark .lens-icon::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border: 1.5px solid var(--ink);
       border-radius: 50%;
-      background: #ffffff;
-      margin-bottom: 48px;
     }
 
-    h1 {
-      font-family: 'Cormorant', serif;
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 300;
+    .wordmark .lens-icon::before {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: -4px;
+      width: 10px;
+      height: 2px;
+      background: var(--ink);
+      transform: rotate(45deg);
+    }
+
+    .spec-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      border: 1px solid var(--rule);
+      padding: 0.3rem 0.6rem;
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 73px);
+    }
+
+    /* ── LEFT PANEL ── */
+    .panel-left {
+      padding: 5rem 4rem 5rem 5rem;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .issue-number {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .issue-number::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    .headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 4vw, 4.2rem);
       line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: 20px;
+      letter-spacing: -0.02em;
     }
 
-    h1 em { font-style: italic; }
+    .headline em {
+      font-style: italic;
+      display: block;
+    }
 
-    .desc {
-      font-size: 1rem;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.65);
-      font-weight: 300;
-      margin-bottom: 48px;
+    .description {
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: var(--lens);
       max-width: 380px;
     }
 
-    /* form */
-    .form {
+    /* ── SPECIMEN LIST ── */
+    .specimen {
       display: flex;
       flex-direction: column;
       gap: 0;
+      border-top: 1px solid var(--rule);
     }
 
-    .field {
+    .specimen-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.75rem;
+    }
+
+    .specimen-num {
+      font-size: 0.6rem;
+      color: var(--muted);
+      padding-top: 2px;
+      min-width: 20px;
+    }
+
+    .specimen-text {
+      line-height: 1.6;
+      color: var(--lens);
+    }
+
+    .specimen-text strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.15rem;
+      font-weight: 700;
+    }
+
+    /* ── BIG LENS SVG ── */
+    .lens-graphic {
+      position: absolute;
+      bottom: -60px;
+      left: 40px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .panel-right {
+      padding: 5rem 5rem 5rem 4rem;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 20px;
+      justify-content: center;
+      gap: 2rem;
     }
 
-    .field label {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.46rem;
-      letter-spacing: 0.18em;
+    .form-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .field input {
+    .form-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .price-display {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3.5rem;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .price-display sup {
+      font-size: 1.2rem;
+      vertical-align: super;
+      font-family: 'Space Mono', monospace;
+      font-weight: 400;
+    }
+
+    .price-display span {
+      font-size: 0.75rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      vertical-align: middle;
+    }
+
+    /* ── FORM FIELDS ── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input[type="email"],
+    input[type="text"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
       background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: #ffffff;
-      padding: 10px 0;
+      border: 1px solid var(--rule);
+      border-radius: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink);
       outline: none;
       transition: border-color 0.2s;
-      width: 100%;
     }
 
-    .field input::placeholder { color: rgba(255,255,255,0.25); }
-    .field input:focus { border-color: rgba(255,255,255,0.8); }
+    input[type="email"]:focus,
+    input[type="text"]:focus {
+      border-color: var(--ink);
+    }
 
+    input::placeholder { color: var(--muted); }
+
+    /* ── STRIPE ELEMENT ── */
+    .stripe-field {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--rule);
+      transition: border-color 0.2s;
+      background: transparent;
+    }
+
+    .stripe-field.focused { border-color: var(--ink); }
+
+    /* ── SUBMIT ── */
     .submit-row {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 12px;
-      flex-wrap: wrap;
-      gap: 16px;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
-    .submit-btn {
-      background: #ffffff;
+    button#subscribe-btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: var(--ink);
+      color: var(--paper);
       border: none;
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.54rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #0000ff;
-      padding: 14px 36px;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .submit-btn:hover {
-      background: rgba(255,255,255,0.85);
-    }
-
-    .submit-note {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.44rem;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.25);
-    }
-
-    /* success state */
-    .success {
-      display: none;
-      text-align: left;
-      padding-top: 8px;
-    }
-
-    .success.show { display: block; }
-
-    .success-mark {
-      font-family: 'Cormorant', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 300;
-      font-style: italic;
-      color: #ffffff;
-      margin-bottom: 12px;
-    }
-
-    .success-sub {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.14em;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
-    }
-
-    /* footer */
-    footer {
-      padding: 24px 40px;
-      border-top: 1px solid rgba(255,255,255,0.1);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: background 0.2s, transform 0.1s;
     }
 
-    .footer-links {
+    button#subscribe-btn:hover { background: var(--lens); }
+    button#subscribe-btn:active { transform: scale(0.99); }
+    button#subscribe-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-arrow {
+      transition: transform 0.2s;
+    }
+    button#subscribe-btn:hover .btn-arrow { transform: translateX(3px); }
+
+    .secure-note {
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.05em;
       display: flex;
-      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
     }
 
-    .footer-links a {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.46rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      text-decoration: none;
-      transition: color 0.2s;
+    /* ── ERROR / SUCCESS ── */
+    #payment-message {
+      font-size: 0.75rem;
+      padding: 0.75rem 1rem;
+      display: none;
+      letter-spacing: 0.02em;
     }
 
-    .footer-links a:hover { color: rgba(255,255,255,0.7); }
-
-    .footer-copy {
-      font-family: 'Fragment Mono', monospace;
-      font-size: 0.44rem;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.2);
+    #payment-message.error {
+      display: block;
+      background: #fdf0ef;
+      border: 1px solid #e8b4b0;
+      color: var(--red);
     }
 
-    @media (max-width: 600px) {
-      .top-bar { padding: 20px 24px; }
-      footer { padding: 20px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    #payment-message.success {
+      display: block;
+      background: #edf7f3;
+      border: 1px solid #a8d5c2;
+      color: var(--green);
+    }
+
+    /* ── DIVIDER ── */
+    .form-divider {
+      height: 1px;
+      background: var(--rule);
+      margin: 0.25rem 0;
+    }
+
+    /* ── CROSSHAIR CORNER ── */
+    .crosshair {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+    .crosshair::before, .crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--muted);
+      opacity: 0.4;
+    }
+    .crosshair::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+    .crosshair::after  { height: 1px; width: 100%; top: 50%; transform: translateY(-50%); }
+
+    .corner-tl { top: 1.5rem; left: 1.5rem; }
+    .corner-tr { top: 1.5rem; right: 1.5rem; }
+    .corner-bl { bottom: 1.5rem; left: 1.5rem; }
+    .corner-br { bottom: 1.5rem; right: 1.5rem; }
+
+    /* ── SPINNER ── */
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(247,244,238,0.3);
+      border-top-color: var(--paper);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    button#subscribe-btn.loading .spinner { display: block; }
+    button#subscribe-btn.loading .btn-label { display: none; }
+    button#subscribe-btn.loading .btn-arrow { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { padding: 1.25rem 1.5rem; }
+
+      main { grid-template-columns: 1fr; }
+
+      .panel-left {
+        padding: 3rem 1.5rem 2rem;
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        gap: 1.5rem;
+      }
+
+      .panel-right { padding: 2.5rem 1.5rem 3rem; }
+
+      .lens-graphic { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <a class="top-bar-brand" href="loupe.html">loupe</a>
-    <div class="top-bar-links">
-      <a class="top-bar-link" href="loupe-catalogue.html">catalogue</a>
-      <a class="top-bar-link" href="loupe.html">← loupe</a>
-      <a class="top-bar-link" href="becs-designed.html">← becs designed</a>
-    </div>
-  </div>
+  <!-- CROSSHAIR CORNERS -->
+  <div class="crosshair corner-tl"></div>
+  <div class="crosshair corner-tr"></div>
+  <div class="crosshair corner-bl"></div>
+  <div class="crosshair corner-br"></div>
 
-  <div class="main">
-    <div class="inner">
+  <header>
+    <a href="/" class="wordmark">
+      <div class="lens-icon"></div>
+      Loupe
+    </a>
+    <div class="spec-tag">Vol. 01 — Specimen</div>
+  </header>
 
-      <div class="mark"></div>
+  <main>
+    <!-- LEFT: INFO -->
+    <section class="panel-left">
+      <div class="issue-number">Newsletter / Subscription</div>
 
-      <h1>Stay<br/><em>close.</em></h1>
-      <p class="desc">A slow newsletter about what I find under the lens — specimens, observations, and the things that only become visible when you look long enough.</p>
+      <h1 class="headline">
+        Design,<br>
+        <em>under the lens.</em>
+      </h1>
 
-      <div class="form" id="form">
-        <div class="field">
-          <label for="f-name">Name</label>
-          <input id="f-name" type="text" placeholder="Your name" autocomplete="off"/>
+      <p class="description">
+        A monthly dispatch for designers who look closer.
+        Brand identity, visual culture, type, and the details
+        most people walk right past.
+      </p>
+
+      <div class="specimen">
+        <div class="specimen-item">
+          <span class="specimen-num">01</span>
+          <div class="specimen-text">
+            <strong>Monthly Deep Dives</strong>
+            One focused essay on a design concept, brand, or visual trend worth examining.
+          </div>
         </div>
-        <div class="field">
-          <label for="f-email">Email</label>
-          <input id="f-email" type="email" placeholder="your@email.com" autocomplete="off"/>
+        <div class="specimen-item">
+          <span class="specimen-num">02</span>
+          <div class="specimen-text">
+            <strong>Collected References</strong>
+            Curated images, links, and finds from the visual world — no noise.
+          </div>
         </div>
-        <div class="submit-row">
-          <button class="submit-btn" onclick="handleSubmit()">Subscribe</button>
-          <span class="submit-note">No frequency promises. Unsubscribe any time.</span>
+        <div class="specimen-item">
+          <span class="specimen-num">03</span>
+          <div class="specimen-text">
+            <strong>Subscriber Archive</strong>
+            Full access to every past issue, searchable and always available.
+          </div>
         </div>
       </div>
 
-      <div class="success" id="success">
-        <div class="success-mark">You're in.</div>
-        <div class="success-sub">Watch your inbox.</div>
+      <!-- BIG LENS GRAPHIC -->
+      <svg class="lens-graphic" width="340" height="340" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="160" cy="160" r="155" stroke="black" stroke-width="4"/>
+        <circle cx="160" cy="160" r="100" stroke="black" stroke-width="2"/>
+        <circle cx="160" cy="160" r="40" stroke="black" stroke-width="2"/>
+        <line x1="160" y1="0" x2="160" y2="320" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="160" x2="320" y2="160" stroke="black" stroke-width="1"/>
+        <line x1="250" y1="250" x2="300" y2="300" stroke="black" stroke-width="4"/>
+        <rect x="295" y="295" width="36" height="16" rx="3" transform="rotate(45 295 295)" stroke="black" stroke-width="3"/>
+      </svg>
+    </section>
+
+    <!-- RIGHT: PAYMENT FORM -->
+    <section class="panel-right">
+      <div class="form-header">
+        <div class="form-eyebrow">Subscription</div>
+        <div class="price-display">
+          <sup>$</sup>8<span>/ month</span>
+        </div>
       </div>
 
-    </div>
-  </div>
+      <div id="payment-message"></div>
 
-  <footer>
-    <div class="footer-links">
-      <a href="loupe.html">loupe</a>
-      <a href="loupe-catalogue.html">catalogue</a>
-      <a href="becs-designed.html">becs designed</a>
-    </div>
-    <span class="footer-copy">© 2025</span>
-  </footer>
+      <form id="payment-form">
+        <div style="display:flex; flex-direction:column; gap:1.25rem;">
+
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-divider"></div>
+
+          <div class="form-group">
+            <label>Card Details</label>
+            <div id="card-element" class="stripe-field"></div>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" id="subscribe-btn">
+              <span class="btn-label">Subscribe — $8 / month</span>
+              <span class="btn-arrow">→</span>
+              <div class="spinner"></div>
+            </button>
+            <div class="secure-note">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                <rect x="1" y="5" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="currentColor" stroke-width="1.2"/>
+              </svg>
+              Secured by Stripe. Cancel anytime.
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </section>
+  </main>
 
   <script>
-    function handleSubmit() {
-      const name  = document.getElementById('f-name').value.trim();
-      const email = document.getElementById('f-email').value.trim();
-      if (!email) {
-        document.getElementById('f-email').focus();
+    // ─────────────────────────────────────────────
+    // REPLACE THIS with your actual Stripe publishable key
+    // Get it from: dashboard.stripe.com → Developers → API Keys
+    // ─────────────────────────────────────────────
+    const STRIPE_PUBLISHABLE_KEY = 'pk_live_YOUR_PUBLISHABLE_KEY_HERE';
+
+    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+    const elements = stripe.elements();
+
+    // Style Stripe's card element to match
+    const cardElement = elements.create('card', {
+      style: {
+        base: {
+          fontFamily: '"Space Mono", monospace',
+          fontSize: '13px',
+          color: '#0d0d0d',
+          letterSpacing: '0.02em',
+          '::placeholder': { color: '#888078' },
+        },
+        invalid: { color: '#c0392b' },
+      },
+      hidePostalCode: false,
+    });
+
+    cardElement.mount('#card-element');
+
+    // Add focus ring to card element wrapper
+    cardElement.on('focus', () => {
+      document.getElementById('card-element').classList.add('focused');
+    });
+    cardElement.on('blur', () => {
+      document.getElementById('card-element').classList.remove('focused');
+    });
+
+    // ─────────────────────────────────────────────
+    // FORM SUBMIT
+    // ─────────────────────────────────────────────
+    const form = document.getElementById('payment-form');
+    const btn = document.getElementById('subscribe-btn');
+    const msgBox = document.getElementById('payment-message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      showMessage('', '');
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!name || !email) {
+        showMessage('Please fill in your name and email.', 'error');
+        setLoading(false);
         return;
       }
-      document.getElementById('form').style.display = 'none';
-      document.getElementById('success').classList.add('show');
+
+      // Create a PaymentMethod
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        billing_details: { name, email },
+      });
+
+      if (error) {
+        showMessage(error.message, 'error');
+        setLoading(false);
+        return;
+      }
+
+      // Send to your Netlify function
+      try {
+        const res = await fetch('/.netlify/functions/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentMethodId: paymentMethod.id,
+            email,
+            name,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+          showMessage(data.error, 'error');
+          setLoading(false);
+          return;
+        }
+
+        // Handle 3D Secure if required
+        if (data.requiresAction) {
+          const { error: confirmError } = await stripe.confirmCardPayment(data.clientSecret);
+          if (confirmError) {
+            showMessage(confirmError.message, 'error');
+            setLoading(false);
+            return;
+          }
+        }
+
+        // SUCCESS
+        showMessage('You\'re in. Welcome to Loupe — check your inbox.', 'success');
+        form.reset();
+        cardElement.clear();
+
+      } catch (err) {
+        showMessage('Something went wrong. Please try again.', 'error');
+      }
+
+      setLoading(false);
+    });
+
+    function setLoading(loading) {
+      btn.disabled = loading;
+      btn.classList.toggle('loading', loading);
     }
 
-    // allow enter key on inputs
-    document.querySelectorAll('input').forEach(input => {
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') handleSubmit();
-      });
-    });
+    function showMessage(text, type) {
+      msgBox.textContent = text;
+      msgBox.className = type;
+    }
   </script>
-
 </body>
 </html>
