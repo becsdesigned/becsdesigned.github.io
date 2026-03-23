@@ -25,7 +25,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = Stripe('sk_test_51TDYWxDOs37ggkjVqpQruO3uhzvcL7Wc5gbBQCwpuNV8kHxefwHFA7jxvRqoaRXDqdooSz7EWPAEx57gsrAA8D8500EadWiJJT');
   const PRICE_ID = process.env.STRIPE_PRICE_ID || 'price_1TEFV7DOs37ggkjVAoMxd9Jq';
 
   let body;
