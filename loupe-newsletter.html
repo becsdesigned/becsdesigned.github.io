@@ -19,43 +19,22 @@
       cursor: crosshair;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      gap: 52px;
-      padding: 26px 0;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.7;
-      transition: opacity 0.25s;
-    }
-    nav a:hover { opacity: 1; }
-
     /* ── PAGE ── */
     .page {
-      max-width: 560px;
+      max-width: 520px;
       margin: 0 auto;
-      padding: 130px 24px 100px;
+      padding: 80px 24px 100px;
+      position: relative;
+      z-index: 1;
     }
 
-    /* ── CIRCLES ── */
+    /* ── FIXED CIRCLES outside column ── */
     .orb {
+      position: fixed;
       border-radius: 50%;
       overflow: hidden;
-      display: block;
-      flex-shrink: 0;
+      pointer-events: none;
+      z-index: 0;
     }
     .orb img {
       width: 100%;
@@ -65,11 +44,29 @@
       border-radius: 50%;
     }
 
-    .orb-row {
-      display: flex;
+    /* left side circle */
+    .orb-left {
+      left: calc(50% - 520px/2 - 160px);
+      top: 18vh;
+      width: 200px;
+      height: 200px;
     }
-    .orb-row.right { justify-content: flex-end; }
-    .orb-row.left  { justify-content: flex-start; }
+
+    /* right side circle — upper */
+    .orb-right-top {
+      right: calc(50% - 520px/2 - 170px);
+      top: 8vh;
+      width: 140px;
+      height: 140px;
+    }
+
+    /* right side circle — lower */
+    .orb-right-bottom {
+      right: calc(50% - 520px/2 - 130px);
+      top: 55vh;
+      width: 180px;
+      height: 180px;
+    }
 
     /* ── CONTENT ── */
     .content {
@@ -294,21 +291,18 @@
 </head>
 <body>
 
-<nav>
-  <a href="#">Water</a>
-  <a href="#">Wind</a>
-  <a href="#">Home</a>
-  <a href="#" id="soundToggle">Click Sound ○</a>
-</nav>
+<!-- CIRCLES — fixed, flanking the text column -->
+<div class="orb orb-left">
+  <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:25% 40%;" alt="specimen">
+</div>
+<div class="orb orb-right-top">
+  <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:70% 20%;" alt="specimen">
+</div>
+<div class="orb orb-right-bottom">
+  <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:55% 75%;" alt="specimen">
+</div>
 
 <div class="page">
-
-  <!-- CIRCLE 1 — top, pushed right -->
-  <div class="orb-row right" style="margin-right:-8px; margin-bottom:56px;">
-    <div class="orb" style="width:210px;height:210px;">
-      <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:25% 20%;" alt="specimen">
-    </div>
-  </div>
 
   <div class="content">
 
@@ -324,13 +318,6 @@
       Brand identity, visual culture, type, and the details
       most people walk right past.
     </p>
-
-    <!-- CIRCLE 2 — tucked left between copy and list -->
-    <div class="orb-row left" style="margin-left:-16px;">
-      <div class="orb" style="width:110px;height:110px;">
-        <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:70% 60%;" alt="specimen">
-      </div>
-    </div>
 
     <div class="specimen">
       <div class="specimen-item">
@@ -406,27 +393,11 @@
 
   </div>
 
-  <!-- CIRCLE 3 — bottom, pushed right -->
-  <div class="orb-row right" style="margin-right:-12px; margin-top:72px;">
-    <div class="orb" style="width:155px;height:155px;">
-      <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:80% 75%;" alt="specimen">
-    </div>
-  </div>
-
 </div>
 
 <footer>Vol. 01 — Specimen &nbsp;·&nbsp; Loupe</footer>
 
 <script>
-  // ── SOUND TOGGLE ──
-  const toggle = document.getElementById('soundToggle');
-  let soundOn = true;
-  toggle.addEventListener('click', e => {
-    e.preventDefault();
-    soundOn = !soundOn;
-    toggle.textContent = soundOn ? 'Click Sound ○' : 'Click Sound ●';
-  });
-
   // ── STRIPE ──
   const STRIPE_PUBLISHABLE_KEY = 'pk_test_51TDYWxDOs37ggkjVOS7rU7ruMy0hDO6YtDH3PMTaf6zzzY3YzruWF8PPQnop03AqPmKvZyrxwgETeUlK17SZ98vn00d08yTV0X';
   const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
