@@ -15,47 +15,23 @@
       background: #000;
       color: #fff;
       font-family: 'Space Mono', monospace;
-      min-height: 100vh;
       cursor: crosshair;
     }
 
-    /*
-      Layout idea:
-      The full page is a single column.
-      Each "row" is a wide flex container: [left edge] [center content] [right edge].
-      Circles live in the edge slots — fully in flow, scrolling naturally.
-      Empty edge slots are just spacers when no circle is there.
-    */
-
-    .row {
-      display: flex;
-      align-items: flex-start;
+    /* ── GALLERY ── */
+    .gallery {
+      position: relative;
       width: 100%;
-      justify-content: center;
+      height: 1900px;
+      background: #000;
     }
 
-    .edge {
-      width: 200px;
-      flex: none;
-      display: flex;
-      padding: 0;
-    }
-    .edge.left  { justify-content: flex-start; }
-    .edge.right { justify-content: flex-end; }
-
-    .col {
-      width: 520px;
-      flex-shrink: 0;
-      padding: 0 24px;
-    }
-
-    /* ── CIRCLES ── */
     .orb {
-      width: 180px;
-      height: 180px;
+      position: absolute;
+      width: 280px;
+      height: 280px;
       border-radius: 50%;
       overflow: hidden;
-      flex-shrink: 0;
     }
     .orb img {
       width: 100%;
@@ -65,13 +41,22 @@
       border-radius: 50%;
     }
 
-    /* ── SPACERS ── */
-    .spacer-sm  { height: 16px; }
-    .spacer-md  { height: 80px; }
-    .spacer-lg  { height: 120px; }
+    /* ── TWO-COLUMN CONTENT ── */
+    .content-wrap {
+      background: #000;
+      padding: 20px 5vw 100px;
+    }
 
-    /* ── CONTENT BLOCKS ── */
-    .eyebrow {
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* LEFT */
+    .issue-number {
       font-size: 10px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -79,9 +64,9 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 32px;
     }
-    .eyebrow::before {
+    .issue-number::before {
       content: '';
       display: block;
       width: 20px; height: 1px;
@@ -91,10 +76,10 @@
     .headline {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      font-size: clamp(2.6rem, 5vw, 3.8rem);
+      font-size: clamp(2.4rem, 3.5vw, 3.6rem);
       line-height: 1.06;
       letter-spacing: -0.01em;
-      margin-bottom: 44px;
+      margin-bottom: 36px;
     }
     .headline em {
       font-style: italic;
@@ -105,13 +90,11 @@
       font-size: 11px;
       line-height: 2.1;
       color: rgba(255,255,255,0.4);
-      margin-bottom: 44px;
+      margin-bottom: 40px;
     }
 
-    /* ── SPECIMEN LIST ── */
     .specimen {
       border-top: 1px solid rgba(255,255,255,0.08);
-      margin-bottom: 44px;
     }
     .specimen-item {
       display: flex;
@@ -133,19 +116,36 @@
       margin-bottom: 2px;
     }
 
-    /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: rgba(255,255,255,0.08);
-      margin-bottom: 44px;
+    /* RIGHT */
+    .panel-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 28px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      padding-left: 60px;
     }
 
-    /* ── FORM ── */
+    .form-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
     .price-row {
       display: flex;
       align-items: baseline;
       gap: 12px;
-      margin-bottom: 28px;
     }
     .price {
       font-family: 'Cormorant Garamond', serif;
@@ -241,7 +241,6 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-top: 10px;
     }
 
     .spinner {
@@ -276,161 +275,151 @@
 
     footer {
       text-align: center;
-      padding: 60px 24px 40px;
+      padding: 60px 24px 48px;
       font-size: 9px;
       letter-spacing: 0.14em;
       color: rgba(255,255,255,0.18);
       text-transform: uppercase;
+      background: #000;
     }
 
-    /* hide edge circles on narrow screens */
-    @media (max-width: 800px) {
-      .edge { display: none; }
-      .col { width: 100%; padding: 0 24px; }
-    }
-    /* ── INTRO SCREEN ── */
-    .intro {
-      width: 100%;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .intro-orb {
-      position: absolute;
-      border-radius: 50%;
-      overflow: hidden;
-    }
-    .intro-orb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 50%;
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; gap: 48px; }
+      .panel-right { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 48px; }
     }
   </style>
 </head>
 <body>
 
-<!-- INTRO SCREEN -->
-<div class="intro">
-  <div class="intro-orb" style="width:260px;height:260px;top:8vh;left:6vw;">
-    <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:20% 30%;" alt="specimen">
+<!-- ── GALLERY SCROLL ── -->
+<div class="gallery">
+
+  <div class="orb" style="top:60px;left:8vw;">
+    <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:20% 35%;" alt="">
   </div>
-  <div class="intro-orb" style="width:180px;height:180px;top:18vh;right:8vw;">
-    <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:70% 20%;" alt="specimen">
+
+  <div class="orb" style="top:240px;right:11vw;">
+    <img src="https://i.imgur.com/W5H7jRu.png" style="object-position:50% 30%;" alt="">
+  </div>
+
+  <div class="orb" style="top:500px;left:38%;">
+    <img src="https://i.imgur.com/p1YDCB2.jpeg" style="object-position:50% 50%;" alt="">
+  </div>
+
+  <div class="orb" style="top:740px;left:4vw;">
+    <img src="https://i.imgur.com/olbhr2B.jpeg" style="object-position:40% 60%;" alt="">
+  </div>
+
+  <a href="https://becsdesigned.com/loupe-catalogue" target="_blank" style="display:block;position:absolute;top:880px;right:5vw;width:280px;height:280px;border-radius:50%;overflow:hidden;">
+    <img src="https://i.imgur.com/2sA8MAN.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;object-position:50% 50%;" alt="">
+  </a>
+
+  <div class="orb" style="top:1120px;left:55%;">
+    <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:60% 80%;" alt="">
+  </div>
+
+  <div class="orb" style="top:1360px;left:7vw;">
+    <img src="https://i.imgur.com/W5H7jRu.png" style="object-position:30% 50%;" alt="">
+  </div>
+
+  <div class="orb" style="top:1520px;left:42%;">
+    <img src="https://i.imgur.com/olbhr2B.jpeg" style="object-position:50% 40%;" alt="">
+  </div>
+
+  <div class="orb" style="top:1760px;right:9vw;">
+    <img src="https://i.imgur.com/p1YDCB2.jpeg" style="object-position:60% 20%;" alt="">
   </div>
 
 </div>
 
-<!-- ROW 1: circle right, eyebrow + headline left -->
-<div class="row">
-  <div class="edge left"></div>
-  <div class="col" style="padding-top:32px;">
-    <div class="eyebrow">Newsletter / Subscription</div>
-    <h1 class="headline">
-      Design,<br>
-      <em>under the lens.</em>
-    </h1>
-  </div>
-  <div class="edge right" style="align-items: flex-start; padding-top: 0;">
-    <div class="orb">
-      <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:25% 20%;" alt="specimen">
+<!-- ── TWO-COLUMN COPY + FORM ── -->
+<div class="content-wrap">
+
+  <!-- Circle sits above both columns -->
+  <div style="max-width:1100px;margin:0 auto 48px;">
+    <div class="orb" style="position:relative;width:280px;height:280px;">
+      <img src="https://i.imgur.com/3t3UDVs.png" style="object-position:50% 50%;" alt="">
     </div>
+  </div>
+
+  <div class="two-col">
+
+    <!-- LEFT: info -->
+    <div>
+      <p class="description">
+        A monthly dispatch for designers who look closer.
+        Brand identity, visual culture, type, and the details
+        most people walk right past.
+      </p>
+
+      <div class="specimen">
+        <div class="specimen-item">
+          <span class="specimen-num">01</span>
+          <div class="specimen-text">
+            <strong>Monthly Deep Dives</strong>
+            One focused essay on a design concept, brand, or visual trend worth examining.
+          </div>
+        </div>
+        <div class="specimen-item">
+          <span class="specimen-num">02</span>
+          <div class="specimen-text">
+            <strong>Collected References</strong>
+            Curated images, links, and finds from the visual world — no noise.
+          </div>
+        </div>
+        <div class="specimen-item">
+          <span class="specimen-num">03</span>
+          <div class="specimen-text">
+            <strong>Subscriber Archive</strong>
+            Full access to every past issue, searchable and always available.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="panel-right">
+      <div class="form-eyebrow">Subscription</div>
+
+      <div class="price-row">
+        <div class="price"><sup>$</sup>8</div>
+        <span class="price-period">/ month</span>
+      </div>
+
+      <div id="payment-message"></div>
+
+      <form id="payment-form">
+        <div class="form-fields">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Card Details</label>
+            <div id="card-element" class="stripe-field"></div>
+          </div>
+          <button type="submit" id="subscribe-btn">
+            <span class="btn-label">Subscribe — $8 / month</span>
+            <span class="btn-arrow">→</span>
+            <div class="spinner"></div>
+          </button>
+          <div class="secure-note">
+            <svg width="9" height="11" viewBox="0 0 10 12" fill="none">
+              <rect x="1" y="5" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            Secured by Stripe. Cancel anytime.
+          </div>
+        </div>
+      </form>
+    </div>
+
   </div>
 </div>
-
-<div class="spacer-md"></div>
-
-<!-- ROW 2: circle left, description -->
-<div class="row" style="align-items: center;">
-  <div class="edge left">
-    <div class="orb">
-      <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:65% 55%;" alt="specimen">
-    </div>
-  </div>
-  <div class="col">
-    <p class="description">
-      A monthly dispatch for designers who look closer.
-      Brand identity, visual culture, type, and the details
-      most people walk right past.
-    </p>
-    <div class="specimen">
-      <div class="specimen-item">
-        <span class="specimen-num">01</span>
-        <div class="specimen-text">
-          <strong>Monthly Deep Dives</strong>
-          One focused essay on a design concept, brand, or visual trend worth examining.
-        </div>
-      </div>
-      <div class="specimen-item">
-        <span class="specimen-num">02</span>
-        <div class="specimen-text">
-          <strong>Collected References</strong>
-          Curated images, links, and finds from the visual world — no noise.
-        </div>
-      </div>
-      <div class="specimen-item">
-        <span class="specimen-num">03</span>
-        <div class="specimen-text">
-          <strong>Subscriber Archive</strong>
-          Full access to every past issue, searchable and always available.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="edge right"></div>
-</div>
-
-<div class="spacer-md"></div>
-
-<!-- ROW 3: circle right, form -->
-<div class="row" style="align-items: flex-start;">
-  <div class="edge left"></div>
-  <div class="col">
-    <div class="divider"></div>
-    <div class="price-row">
-      <div class="price"><sup>$</sup>8</div>
-      <span class="price-period">/ month</span>
-    </div>
-    <div id="payment-message"></div>
-    <form id="payment-form">
-      <div class="form-fields">
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" placeholder="Your name" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="you@example.com" required />
-        </div>
-        <div class="form-group">
-          <label>Card Details</label>
-          <div id="card-element" class="stripe-field"></div>
-        </div>
-        <button type="submit" id="subscribe-btn">
-          <span class="btn-label">Subscribe — $8 / month</span>
-          <span class="btn-arrow">→</span>
-          <div class="spinner"></div>
-        </button>
-        <div class="secure-note">
-          <svg width="9" height="11" viewBox="0 0 10 12" fill="none">
-            <rect x="1" y="5" width="8" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/>
-            <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="currentColor" stroke-width="1.2"/>
-          </svg>
-          Secured by Stripe. Cancel anytime.
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="edge right" style="padding-top: 60px;">
-    <div class="orb">
-      <img src="https://i.imgur.com/DEHkytp.jpeg" style="object-position:80% 70%;" alt="specimen">
-    </div>
-  </div>
-</div>
-
-<div class="spacer-sm"></div>
 
 <footer>Vol. 01 — Specimen &nbsp;·&nbsp; Loupe</footer>
 
