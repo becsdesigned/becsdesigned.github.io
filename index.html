@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>becs designed</title>
 
-  <!-- Alte Haas Grotesk via CDN -->
   <link href="https://fonts.cdnfonts.com/css/alte-haas-grotesk" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Fragment+Mono&display=swap" rel="stylesheet" />
 
@@ -31,10 +30,6 @@
       overflow-x: hidden;
     }
 
-    /* ══════════════════════════════
-       TOP NAV
-    ══════════════════════════════ */
-
     .top-nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -58,10 +53,6 @@
 
     .top-nav-item.dim { color: rgba(0,0,0,0.35); }
     .top-nav-item:hover { color: var(--blue); }
-
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
 
     .hero {
       height: 100vh;
@@ -98,10 +89,6 @@
       line-height: 2;
     }
 
-    /* ══════════════════════════════
-       MAIN LAYOUT
-    ══════════════════════════════ */
-
     .layout {
       display: flex;
       border-top: 1px solid var(--black);
@@ -114,7 +101,6 @@
       min-width: 0;
     }
 
-    /* ── STICKY LEFT COLUMN ── */
     .col-nav {
       width: 200px;
       flex-shrink: 0;
@@ -186,7 +172,6 @@
       padding-top: 20px;
     }
 
-    /* ── PROJECT COLUMNS ── */
     .col-projects {
       flex: 1;
       display: flex;
@@ -207,7 +192,6 @@
 
     .project-col:last-child { border-right: none; }
 
-    /* colour per column */
     .pc-meet { background: #ffffff;  color: #0a0a0a; }
     .pc-1    { background: #0000ff;  color: #ffffff; }
     .pc-2    { background: #d9ed92;  color: #52b69a; }
@@ -216,10 +200,8 @@
     .pc-poem { background: #000000;  color: #ffffff; }
     .pc-gwj  { background: #6A421B;  color: #F9F3EB; }
 
-    /* hover: darken slightly */
     .project-col:hover { filter: brightness(0.93); }
 
-    /* sticky Meet Becs column */
     .pc-meet {
       position: sticky;
       left: 0;
@@ -321,10 +303,6 @@
       opacity: 1;
       transform: translateX(4px);
     }
-
-    /* ══════════════════════════════
-       INFO OVERLAY
-    ══════════════════════════════ */
 
     #info-page {
       position: fixed;
@@ -511,14 +489,12 @@
 </head>
 <body>
 
-  <!-- TOP NAV -->
   <nav class="top-nav">
     <span class="top-nav-item">becs designed</span>
     <span class="top-nav-item dim">Art direction &amp; graphic design</span>
     <span class="top-nav-item">Broward, FL</span>
   </nav>
 
-  <!-- INFO OVERLAY -->
   <div id="info-page">
     <div class="info-bar">
       <span class="info-bar-title">becs designed — info</span>
@@ -567,7 +543,6 @@
     </div>
   </div>
 
-  <!-- HERO -->
   <section class="hero">
     <h1 class="hero-title">becs designed</h1>
     <div class="hero-sub">
@@ -577,7 +552,6 @@
     </div>
   </section>
 
-  <!-- MAIN LAYOUT -->
   <div class="layout">
 
     <div class="col-projects">
@@ -624,12 +598,12 @@
         </div>
         <div class="col-footer">
           <span class="col-footer-label">© 2025</span>
-          <a href="loupe.html" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;">Loupe ↗</a>
+          <a href="https://loupe.becsdesigned.com" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;">Loupe ↗</a>
         </div>
       </div>
 
       <!-- Loupe -->
-      <a class="project-col pc-1" href="loupe.html">
+      <a class="project-col pc-1" href="https://loupe.becsdesigned.com">
         <div class="col-top">
           <span class="col-eyebrow">WK.006 · Brand identity, 2025</span>
           <span class="col-title">Loupe</span>
@@ -647,7 +621,7 @@
         </div>
       </a>
 
-      <!-- [your poem here] — updated href -->
+      <!-- [your poem here] -->
       <a class="project-col" style="background:#302F2F;color:#ffffff;" href="https://www.yourpoemhere.com/" target="_blank" rel="noopener noreferrer">
         <div class="col-top">
           <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
