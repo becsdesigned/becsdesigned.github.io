@@ -123,11 +123,7 @@
     }
     .col-nav-link:hover { color: var(--blue); letter-spacing: 0.01em; }
     .col-nav-link em { font-style: italic; }
-    .col-nav-divider {
-      border: none;
-      border-top: 1px solid rgba(0,0,0,0.07);
-      margin: 20px 0 16px;
-    }
+    .col-nav-divider { border: none; border-top: 1px solid rgba(0,0,0,0.07); margin: 20px 0 16px; }
     .col-nav-external {
       font-family: var(--mono);
       font-size: 0.44rem;
@@ -150,10 +146,6 @@
       margin-top: auto;
       padding-top: 20px;
     }
-    .col-projects {
-      flex: 1;
-      display: flex;
-    }
     .project-col {
       flex: 0 0 260px;
       width: 260px;
@@ -167,13 +159,13 @@
       transition: filter 0.2s;
     }
     .project-col:last-child { border-right: none; }
-    .pc-meet { background: #ffffff;  color: #0a0a0a; }
-    .pc-1    { background: #0000ff;  color: #ffffff; }
-    .pc-2    { background: #d9ed92;  color: #52b69a; }
-    .pc-3    { background: #B4AE00;  color: #ffffff; }
-    .pc-4    { background: #76112D;  color: #94DDFF; }
-    .pc-poem { background: #000000;  color: #ffffff; }
-    .pc-gwj  { background: #6A421B;  color: #F9F3EB; }
+    .pc-meet { background: #ffffff; color: #0a0a0a; }
+    .pc-1    { background: #0000ff; color: #ffffff; }
+    .pc-2    { background: #d9ed92; color: #52b69a; }
+    .pc-3    { background: #B4AE00; color: #ffffff; }
+    .pc-4    { background: #76112D; color: #94DDFF; }
+    .pc-poem { background: #000000; color: #ffffff; }
+    .pc-gwj  { background: #6A421B; color: #F9F3EB; }
     .pc-bodymap { background: #ff0000; color: #ffffff; }
     .project-col:hover { filter: brightness(0.93); }
     .pc-meet {
@@ -214,24 +206,17 @@
       display: block;
       color: inherit;
     }
-    .col-top {
-      padding: 24px 18px 18px;
-      border-bottom: none;
-    }
+    .col-top { padding: 24px 18px 18px; }
     .col-image {
       width: 100%;
       aspect-ratio: 3/4;
       overflow: hidden;
-      border-bottom: none;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
     }
-    .col-body {
-      padding: 18px 18px;
-      flex: 1;
-    }
+    .col-body { padding: 18px 18px; flex: 1; }
     .col-desc {
       font-family: var(--serif);
       font-size: 0.92rem;
@@ -242,7 +227,6 @@
     }
     .col-footer {
       padding: 14px 18px;
-      border-top: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -262,10 +246,30 @@
       transition: opacity 0.2s, transform 0.2s;
       color: inherit;
     }
-    .project-col:hover .col-footer-arrow {
-      opacity: 1;
-      transform: translateX(4px);
+    .project-col:hover .col-footer-arrow { opacity: 1; transform: translateX(4px); }
+    /* Carousel buttons inside col */
+    .car-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      transition: background 0.2s;
+      line-height: 1;
     }
+    .car-btn:hover { background: rgba(255,255,255,0.25); }
+    .car-prev { left: 6px; }
+    .car-next { right: 6px; }
     #info-page {
       position: fixed;
       inset: 0;
@@ -277,11 +281,7 @@
       pointer-events: none;
       transition: opacity 0.4s ease, visibility 0.4s;
     }
-    #info-page.open {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: all;
-    }
+    #info-page.open { opacity: 1; visibility: visible; pointer-events: all; }
     .info-bar {
       position: sticky;
       top: 0;
@@ -294,130 +294,27 @@
       border-bottom: 1px solid rgba(0,0,0,0.08);
       z-index: 10;
     }
-    .info-bar-title {
-      font-family: var(--mono);
-      font-size: 0.5rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.4);
-    }
-    .info-close {
-      font-family: var(--mono);
-      font-size: 0.5rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--black);
-      transition: color 0.2s;
-    }
+    .info-bar-title { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
+    .info-close { font-family: var(--mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; background: none; border: none; cursor: pointer; color: var(--black); transition: color 0.2s; }
     .info-close:hover { color: var(--blue); }
-    .info-inner {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-    .info-col {
-      padding: 60px 44px 80px;
-      border-right: 1px solid rgba(0,0,0,0.08);
-    }
+    .info-inner { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(0,0,0,0.08); }
+    .info-col { padding: 60px 44px 80px; border-right: 1px solid rgba(0,0,0,0.08); }
     .info-col:last-child { border-right: none; }
-    .info-col-label {
-      font-family: var(--mono);
-      font-size: 0.44rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--blue);
-      opacity: 0.55;
-      display: block;
-      margin-bottom: 24px;
-    }
-    .info-col h2 {
-      font-family: var(--grotesk);
-      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
-      font-weight: 400;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: 24px;
-    }
-    .info-col h2 em {
-      font-style: italic;
-      font-family: var(--serif);
-      font-weight: 300;
-    }
-    .info-col p {
-      font-size: 0.92rem;
-      line-height: 1.85;
-      color: rgba(0,0,0,0.55);
-      margin-bottom: 14px;
-    }
-    .svc-row {
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-    .svc-name {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 300;
-      margin-bottom: 2px;
-    }
-    .svc-desc {
-      font-family: var(--mono);
-      font-size: 0.42rem;
-      letter-spacing: 0.08em;
-      color: rgba(0,0,0,0.4);
-      line-height: 1.7;
-    }
+    .info-col-label { font-family: var(--mono); font-size: 0.44rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); opacity: 0.55; display: block; margin-bottom: 24px; }
+    .info-col h2 { font-family: var(--grotesk); font-size: clamp(1.6rem, 2.5vw, 2.6rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 24px; }
+    .info-col h2 em { font-style: italic; font-family: var(--serif); font-weight: 300; }
+    .info-col p { font-size: 0.92rem; line-height: 1.85; color: rgba(0,0,0,0.55); margin-bottom: 14px; }
+    .svc-row { padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .svc-name { font-family: var(--serif); font-size: 1rem; font-weight: 300; margin-bottom: 2px; }
+    .svc-desc { font-family: var(--mono); font-size: 0.42rem; letter-spacing: 0.08em; color: rgba(0,0,0,0.4); line-height: 1.7; }
     .info-field { margin-bottom: 20px; }
-    .info-label {
-      display: block;
-      font-family: var(--mono);
-      font-size: 0.42rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--blue);
-      opacity: 0.5;
-      margin-bottom: 6px;
-    }
-    .info-input, .info-textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(0,0,0,0.12);
-      font-family: var(--serif);
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: var(--black);
-      padding: 8px 0;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    .info-label { display: block; font-family: var(--mono); font-size: 0.42rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); opacity: 0.5; margin-bottom: 6px; }
+    .info-input, .info-textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(0,0,0,0.12); font-family: var(--serif); font-size: 0.95rem; font-weight: 300; color: var(--black); padding: 8px 0; outline: none; transition: border-color 0.2s; }
     .info-input:focus, .info-textarea:focus { border-color: var(--blue); }
     .info-textarea { resize: none; min-height: 80px; }
-    .info-submit {
-      margin-top: 16px;
-      background: var(--black);
-      border: none;
-      font-family: var(--mono);
-      font-size: 0.48rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--white);
-      padding: 13px 28px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+    .info-submit { margin-top: 16px; background: var(--black); border: none; font-family: var(--mono); font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); padding: 13px 28px; cursor: pointer; transition: background 0.2s; }
     .info-submit:hover { background: var(--blue); }
-    .info-meta {
-      margin-top: 36px;
-      font-family: var(--mono);
-      font-size: 0.42rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.25);
-      line-height: 2.4;
-    }
+    .info-meta { margin-top: 36px; font-family: var(--mono); font-size: 0.42rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.25); line-height: 2.4; }
     @media (max-width: 900px) {
       .col-nav { display: none; }
       .info-inner { grid-template-columns: 1fr; }
@@ -458,18 +355,9 @@
       <div class="info-col">
         <span class="info-col-label">Contact</span>
         <h2>Let's make<br/>something<br/><em>great.</em></h2>
-        <div class="info-field">
-          <label class="info-label">Name</label>
-          <input class="info-input" type="text" placeholder="Your name"/>
-        </div>
-        <div class="info-field">
-          <label class="info-label">Email</label>
-          <input class="info-input" type="email" placeholder="your@email.com"/>
-        </div>
-        <div class="info-field">
-          <label class="info-label">Project</label>
-          <textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea>
-        </div>
+        <div class="info-field"><label class="info-label">Name</label><input class="info-input" type="text" placeholder="Your name"/></div>
+        <div class="info-field"><label class="info-label">Email</label><input class="info-input" type="email" placeholder="your@email.com"/></div>
+        <div class="info-field"><label class="info-label">Project</label><textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea></div>
         <button class="info-submit" id="sendBtn">Send message</button>
         <div class="info-meta">@becsdesigned<br/>hello@becsdesigned.com</div>
       </div>
@@ -477,32 +365,23 @@
   </div>
   <section class="hero">
     <h1 class="hero-title">becs designed</h1>
-    <div class="hero-sub">
-      Art direction<br/>
-      &amp; graphic design<br/>
-      Broward, 2025
-    </div>
+    <div class="hero-sub">Art direction<br/>&amp; graphic design<br/>Broward, 2025</div>
   </section>
   <div class="layout">
     <div class="col-projects">
-      <!-- Meet Becs -->
+
+      <!-- Meet Becs (sticky) -->
       <div class="project-col pc-meet">
         <div class="col-top">
           <span class="col-eyebrow">Meet becs</span>
-          <span class="col-title" style="color:#0a0a0a; font-weight:700; font-size:2.8rem; line-height:1.05;">hi, I'm becca</span>
+          <span class="col-title" style="color:#0a0a0a;font-weight:700;font-size:2.8rem;line-height:1.05;">hi, I'm becca</span>
           <span class="col-subtitle">Designer, Broward</span>
         </div>
-        <div class="col-body" style="flex:1; display:flex; flex-direction:column; gap:24px;">
+        <div class="col-body" style="flex:1;display:flex;flex-direction:column;gap:24px;">
           <p class="col-desc" style="font-size:0.82rem;">Lately I have been interested in unconventional ways to communicate information. My goal is to be the bridge between something interesting and you.</p>
           <div>
             <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:10px;">Services</div>
-            <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;line-height:2.1;opacity:0.75;">
-              Brand Identity<br/>
-              Web Design<br/>
-              Print &amp; Collateral<br/>
-              Social &amp; Content<br/>
-              Creative Direction
-            </div>
+            <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;line-height:2.1;opacity:0.75;">Brand Identity<br/>Web Design<br/>Print &amp; Collateral<br/>Social &amp; Content<br/>Creative Direction</div>
           </div>
           <div style="margin-top:auto;">
             <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:12px;">Contact</div>
@@ -516,8 +395,8 @@
             </div>
             <div>
               <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:8px;">Send a message</div>
-              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="text" placeholder="Your name" />
-              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="email" placeholder="your@email.com" />
+              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="text" placeholder="Your name"/>
+              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="email" placeholder="your@email.com"/>
               <textarea style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;resize:none;min-height:56px;margin-bottom:12px;" placeholder="Your project..."></textarea>
               <button onclick="handleSend(this)" style="background:#E20000;border:none;font-family:var(--mono);font-size:0.42rem;letter-spacing:0.16em;text-transform:uppercase;color:#ffffff;padding:10px 20px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
             </div>
@@ -528,6 +407,7 @@
           <a href="https://loupe.becsdesigned.com" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;">Loupe ↗</a>
         </div>
       </div>
+
       <!-- Loupe -->
       <a class="project-col pc-1" href="https://loupe.becsdesigned.com">
         <div class="col-top">
@@ -546,6 +426,7 @@
           <span class="col-footer-arrow">→</span>
         </div>
       </a>
+
       <!-- [your poem here] -->
       <a class="project-col" style="background:#302F2F;color:#ffffff;" href="https://www.yourpoemhere.com/" target="_blank" rel="noopener noreferrer">
         <div class="col-top">
@@ -554,11 +435,7 @@
           <span class="col-subtitle" style="color:#ffffff;">Writing, 2025</span>
         </div>
         <div class="col-image">
-          <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">
-            [ &nbsp; &nbsp; &nbsp; ]<br/>
-            [ &nbsp; &nbsp; &nbsp; ]<br/>
-            [ &nbsp; &nbsp; &nbsp; ]
-          </div>
+          <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]</div>
         </div>
         <div class="col-body">
           <p class="col-desc" style="color:#ffffff;">A collection of poems. Words placed carefully, like objects on a table.</p>
@@ -568,6 +445,7 @@
           <span class="col-footer-arrow" style="color:#ffffff;">→</span>
         </div>
       </a>
+
       <!-- Body Map -->
       <a class="project-col pc-bodymap" href="https://bodymap.becsdesigned.com">
         <div class="col-top">
@@ -584,6 +462,30 @@
           <span class="col-footer-arrow" style="color:#ffffff;">→</span>
         </div>
       </a>
+
+      <!-- Carousel -->
+      <a class="project-col pc-3" href="https://carousel.becsdesigned.com">
+        <div class="col-top">
+          <span class="col-eyebrow">Personal project, 2025</span>
+          <span class="col-title">Carousel</span>
+          <span class="col-subtitle">Look builder</span>
+        </div>
+        <div class="col-image">
+          <div style="width:65%;display:flex;flex-direction:column;gap:4px;">
+            <div style="width:100%;height:18px;background:rgba(255,255,255,0.35);"></div>
+            <div style="width:100%;height:18px;background:rgba(255,255,255,0.35);"></div>
+            <div style="width:100%;height:18px;background:rgba(255,255,255,0.35);"></div>
+          </div>
+        </div>
+        <div class="col-body">
+          <p class="col-desc">A modular look builder — mix and match head, torso, and legs independently across a full-bleed image carousel.</p>
+        </div>
+        <div class="col-footer">
+          <span class="col-footer-label">View project</span>
+          <span class="col-footer-arrow">→</span>
+        </div>
+      </a>
+
       <!-- growwithjo -->
       <a class="project-col" style="background:#432818;color:#F9F3EB;" href="#">
         <div class="col-top">
@@ -602,26 +504,7 @@
           <span class="col-footer-arrow" style="color:#F9F3EB;">→</span>
         </div>
       </a>
-      <!-- Pulse Agency -->
-      <a class="project-col pc-3" href="#">
-        <div class="col-top">
-          <span class="col-eyebrow">WK.002 · Web design, 2024</span>
-          <span class="col-title">Pulse Agency</span>
-          <span class="col-subtitle">Art direction</span>
-        </div>
-        <div class="col-image">
-          <div style="width:65%;aspect-ratio:4/3;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
-            <div style="width:80%;height:1px;background:rgba(255,255,255,0.4);"></div>
-          </div>
-        </div>
-        <div class="col-body">
-          <p class="col-desc">Site redesign and visual direction for a creative agency. Clean structure, considered spacing, deliberate type choices.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label">View project</span>
-          <span class="col-footer-arrow">→</span>
-        </div>
-      </a>
+
       <!-- Noma Botanicals -->
       <a class="project-col pc-4" href="#">
         <div class="col-top">
@@ -642,19 +525,23 @@
       </a>
     </div>
   </div>
+  </div>
+
   <script>
-    function openInfo() {
-      document.getElementById('info-page').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeInfo() {
-      document.getElementById('info-page').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function handleSend(btn) {
-      btn.textContent = 'Sent ✓';
-      btn.style.opacity = '0.5';
-      btn.disabled = true;
+    function openInfo() { document.getElementById('info-page').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeInfo() { document.getElementById('info-page').classList.remove('open'); document.body.style.overflow = ''; }
+    function handleSend(btn) { btn.textContent = 'Sent ✓'; btn.style.opacity = '0.5'; btn.disabled = true; }
+
+    // Carousel logic
+    var carState = {};
+    function carSlide(btn, dir) {
+      var row = btn.closest('.car-row');
+      var track = row.querySelector('.car-track');
+      var slides = track.children.length;
+      var key = Array.from(document.querySelectorAll('.car-row')).indexOf(row);
+      if (carState[key] === undefined) carState[key] = 0;
+      carState[key] = (carState[key] + dir + slides) % slides;
+      track.style.transform = 'translateX(-' + (carState[key] * 100) + '%)';
     }
   </script>
 </body>
