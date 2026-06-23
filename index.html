@@ -247,7 +247,6 @@
       color: inherit;
     }
     .project-col:hover .col-footer-arrow { opacity: 1; transform: translateX(4px); }
-    /* Carousel buttons inside col */
     .car-btn {
       position: absolute;
       top: 50%;
@@ -324,209 +323,241 @@
   </style>
 </head>
 <body>
-  <nav class="top-nav">
-    <span class="top-nav-item">becs designed</span>
-    <span class="top-nav-item dim">Art direction &amp; graphic design</span>
-    <span class="top-nav-item">Broward, FL</span>
-  </nav>
-  <div id="info-page">
-    <div class="info-bar">
-      <span class="info-bar-title">becs designed — info</span>
-      <button class="info-close" onclick="closeInfo()">Close ×</button>
-    </div>
-    <div class="info-inner">
-      <div class="info-col">
-        <span class="info-col-label">About</span>
-        <h2>Bold ideas.<br/><em>Clean execution.</em></h2>
-        <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
-        <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
-        <div class="info-meta">Broward, FL<br/>Available for projects<br/>hello@becsdesigned.com</div>
-      </div>
-      <div class="info-col">
-        <span class="info-col-label">Contact</span>
-        <h2>Let's make<br/>something<br/><em>great.</em></h2>
-        <div class="info-field"><label class="info-label">Name</label><input class="info-input" type="text" placeholder="Your name"/></div>
-        <div class="info-field"><label class="info-label">Email</label><input class="info-input" type="email" placeholder="your@email.com"/></div>
-        <div class="info-field"><label class="info-label">Project</label><textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea></div>
-        <button class="info-submit" id="sendBtn">Send message</button>
-        <div class="info-meta">@becsdesigned<br/>hello@becsdesigned.com</div>
-      </div>
-    </div>
-  </div>
-  <section class="hero">
-    <h1 class="hero-title">becs designed</h1>
-    <div class="hero-sub">Art direction<br/>&amp; graphic design<br/>Broward, 2025</div>
-  </section>
-  <div class="layout">
-    <div class="col-projects">
 
-      <!-- Meet Becs (sticky) -->
-      <div class="project-col pc-meet">
-        <div class="col-top">
-          <span class="col-eyebrow">Meet becs</span>
-          <span class="col-title" style="color:#0a0a0a;font-weight:700;font-size:2.8rem;line-height:1.05;">hi, I'm becca</span>
-          <span class="col-subtitle">Designer, Broward</span>
+  <!-- ============================================================
+       COMING SOON — shown when SITE_LIVE = false
+  ============================================================ -->
+  <div id="coming-soon">
+    <nav class="top-nav">
+      <span class="top-nav-item dim">Coming Soon bitches!!! :P</span>
+    </nav>
+  </div>
+
+  <!-- ============================================================
+       REAL SITE — shown when SITE_LIVE = true
+  ============================================================ -->
+  <div id="site-content" style="display:none;">
+
+    <nav class="top-nav">
+      <span class="top-nav-item">becs designed</span>
+      <span class="top-nav-item dim">Art direction &amp; graphic design</span>
+      <span class="top-nav-item">Broward, FL</span>
+    </nav>
+
+    <div id="info-page">
+      <div class="info-bar">
+        <span class="info-bar-title">becs designed — info</span>
+        <button class="info-close" onclick="closeInfo()">Close ×</button>
+      </div>
+      <div class="info-inner">
+        <div class="info-col">
+          <span class="info-col-label">About</span>
+          <h2>Bold ideas.<br/><em>Clean execution.</em></h2>
+          <p>Hey, I'm Bec — a designer with an eye for the unexpected and a love of making things that actually feel like something. Whether it's a full brand identity, a landing page, or a one-off piece, I bring the same obsessive attention to detail every time.</p>
+          <p>Inspired by the clarity of a game well played — every shot intentional, every element earning its place. No filler. Just design that lands.</p>
+          <div class="info-meta">Broward, FL<br/>Available for projects<br/>hello@becsdesigned.com</div>
         </div>
-        <div class="col-body" style="flex:1;display:flex;flex-direction:column;gap:24px;">
-          <p class="col-desc" style="font-size:0.82rem;">Lately I have been interested in unconventional ways to communicate information. My goal is to be the bridge between something interesting and you.</p>
-          <div>
-            <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:10px;">Services</div>
-            <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;line-height:2.1;opacity:0.75;">Brand Identity<br/>Web Design<br/>Print &amp; Collateral<br/>Social &amp; Content<br/>Creative Direction</div>
+        <div class="info-col">
+          <span class="info-col-label">Contact</span>
+          <h2>Let's make<br/>something<br/><em>great.</em></h2>
+          <div class="info-field"><label class="info-label">Name</label><input class="info-input" type="text" placeholder="Your name"/></div>
+          <div class="info-field"><label class="info-label">Email</label><input class="info-input" type="email" placeholder="your@email.com"/></div>
+          <div class="info-field"><label class="info-label">Project</label><textarea class="info-textarea" placeholder="Tell me what you're working on"></textarea></div>
+          <button class="info-submit" id="sendBtn">Send message</button>
+          <div class="info-meta">@becsdesigned<br/>hello@becsdesigned.com</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1 class="hero-title">becs designed</h1>
+      <div class="hero-sub">Art direction<br/>&amp; graphic design<br/>Broward, 2025</div>
+    </section>
+
+    <div class="layout">
+      <div class="col-projects">
+
+        <!-- Meet Becs (sticky) -->
+        <div class="project-col pc-meet">
+          <div class="col-top">
+            <span class="col-eyebrow">Meet becs</span>
+            <span class="col-title" style="color:#0a0a0a;font-weight:700;font-size:2.8rem;line-height:1.05;">hi, I'm becca</span>
+            <span class="col-subtitle">Designer, Broward</span>
           </div>
-          <div style="margin-top:auto;">
-            <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:12px;">Contact</div>
-            <div style="margin-bottom:10px;">
-              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Email</div>
-              <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;">hello@becsdesigned.com</div>
-            </div>
-            <div style="margin-bottom:10px;">
-              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Instagram</div>
-              <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;">@becsdesigned</div>
-            </div>
+          <div class="col-body" style="flex:1;display:flex;flex-direction:column;gap:24px;">
+            <p class="col-desc" style="font-size:0.82rem;">Lately I have been interested in unconventional ways to communicate information. My goal is to be the bridge between something interesting and you.</p>
             <div>
-              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:8px;">Send a message</div>
-              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="text" placeholder="Your name"/>
-              <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="email" placeholder="your@email.com"/>
-              <textarea style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;resize:none;min-height:56px;margin-bottom:12px;" placeholder="Your project..."></textarea>
-              <button onclick="handleSend(this)" style="background:#E20000;border:none;font-family:var(--mono);font-size:0.42rem;letter-spacing:0.16em;text-transform:uppercase;color:#ffffff;padding:10px 20px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
+              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:10px;">Services</div>
+              <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;line-height:2.1;opacity:0.75;">Brand Identity<br/>Web Design<br/>Print &amp; Collateral<br/>Social &amp; Content<br/>Creative Direction</div>
+            </div>
+            <div style="margin-top:auto;">
+              <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:12px;">Contact</div>
+              <div style="margin-bottom:10px;">
+                <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Email</div>
+                <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;">hello@becsdesigned.com</div>
+              </div>
+              <div style="margin-bottom:10px;">
+                <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:4px;">Instagram</div>
+                <div style="font-family:var(--serif);font-size:0.85rem;color:#0a0a0a;">@becsdesigned</div>
+              </div>
+              <div>
+                <div style="font-family:var(--mono);font-size:0.38rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.35);margin-bottom:8px;">Send a message</div>
+                <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="text" placeholder="Your name"/>
+                <input style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;margin-bottom:8px;" type="email" placeholder="your@email.com"/>
+                <textarea style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(0,0,0,0.12);font-family:var(--serif);font-size:0.82rem;color:#0a0a0a;padding:6px 0;outline:none;resize:none;min-height:56px;margin-bottom:12px;" placeholder="Your project..."></textarea>
+                <button onclick="handleSend(this)" style="background:#E20000;border:none;font-family:var(--mono);font-size:0.42rem;letter-spacing:0.16em;text-transform:uppercase;color:#ffffff;padding:10px 20px;cursor:pointer;transition:opacity 0.2s;">Send →</button>
+              </div>
             </div>
           </div>
+          <div class="col-footer">
+            <span class="col-footer-label">© 2025</span>
+            <a href="https://loupe.becsdesigned.com" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;">Loupe ↗</a>
+          </div>
         </div>
-        <div class="col-footer">
-          <span class="col-footer-label">© 2025</span>
-          <a href="https://loupe.becsdesigned.com" style="font-family:var(--mono);font-size:0.42rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);text-decoration:none;">Loupe ↗</a>
-        </div>
+
+        <!-- Loupe -->
+        <a class="project-col pc-1" href="https://loupe.becsdesigned.com">
+          <div class="col-top">
+            <span class="col-eyebrow">WK.006 · Brand identity, 2025</span>
+            <span class="col-title">Loupe</span>
+            <span class="col-subtitle">A study in reduction</span>
+          </div>
+          <div class="col-image">
+            <div style="width:55%;aspect-ratio:1;border-radius:50%;background:#ffffff;"></div>
+          </div>
+          <div class="col-body">
+            <p class="col-desc">A brand identity built around a single mark. The circle as lens — precise, unassuming, quietly attentive. Everything stripped back until only the essential remained.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label">View project</span>
+            <span class="col-footer-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- [your poem here] -->
+        <a class="project-col" style="background:#302F2F;color:#ffffff;" href="https://www.yourpoemhere.com/" target="_blank" rel="noopener noreferrer">
+          <div class="col-top">
+            <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
+            <span class="col-title" style="color:#ffffff;">[your poem here]</span>
+            <span class="col-subtitle" style="color:#ffffff;">Writing, 2025</span>
+          </div>
+          <div class="col-image">
+            <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]</div>
+          </div>
+          <div class="col-body">
+            <p class="col-desc" style="color:#ffffff;">A collection of poems. Words placed carefully, like objects on a table.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label" style="color:#ffffff;">View project</span>
+            <span class="col-footer-arrow" style="color:#ffffff;">→</span>
+          </div>
+        </a>
+
+        <!-- Body Map -->
+        <a class="project-col pc-bodymap" href="https://bodymap.becsdesigned.com">
+          <div class="col-top">
+            <span class="col-eyebrow" style="color:rgba(255,255,255,0.6);">Personal project, 2025</span>
+            <span class="col-title" style="color:#ffffff;">Body Map</span>
+            <span class="col-subtitle" style="color:rgba(255,255,255,0.6);">A research index</span>
+          </div>
+          <div class="col-image"></div>
+          <div class="col-body">
+            <p class="col-desc" style="color:#ffffff;">A personal map of the body — each zone linking to original research, routines, products, and observations collected over time.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label" style="color:rgba(255,255,255,0.6);">View project</span>
+            <span class="col-footer-arrow" style="color:#ffffff;">→</span>
+          </div>
+        </a>
+
+        <!-- Carousel -->
+        <a class="project-col pc-3" href="https://carousel.becsdesigned.com">
+          <div class="col-top">
+            <span class="col-eyebrow">Personal project, 2025</span>
+            <span class="col-title">Carousel</span>
+            <span class="col-subtitle">Look builder</span>
+          </div>
+          <div class="col-image"></div>
+          <div class="col-body">
+            <p class="col-desc">A modular look builder — mix and match head, torso, and legs independently across a full-bleed image carousel.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label">View project</span>
+            <span class="col-footer-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- growwithjo -->
+        <a class="project-col" style="background:#432818;color:#F9F3EB;" href="#">
+          <div class="col-top">
+            <span class="col-eyebrow" style="color:#F9F3EB;">growwithjo</span>
+            <span class="col-title" style="color:#F9F3EB;">growwithjo</span>
+            <span class="col-subtitle" style="color:#F9F3EB;">Brand &amp; digital, 2024</span>
+          </div>
+          <div class="col-image">
+            <img src="https://i.imgur.com/uUimw5k.png" style="width:55%;aspect-ratio:1;border-radius:50%;object-fit:cover;" alt="growwithjo"/>
+          </div>
+          <div class="col-body">
+            <p class="col-desc" style="color:#F9F3EB;">Brand and digital work for a women's home fitness platform. Identity, web, and content across a growing community.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label" style="color:#F9F3EB;">View project</span>
+            <span class="col-footer-arrow" style="color:#F9F3EB;">→</span>
+          </div>
+        </a>
+
+        <!-- Noma Botanicals -->
+        <a class="project-col pc-4" href="#">
+          <div class="col-top">
+            <span class="col-eyebrow">WK.003 · Packaging, 2024</span>
+            <span class="col-title">Noma Botanicals</span>
+            <span class="col-subtitle">Brand &amp; packaging</span>
+          </div>
+          <div class="col-image">
+            <div style="width:36%;aspect-ratio:1/2;background:rgba(148,221,255,0.3);border-radius:40px 40px 0 0;"></div>
+          </div>
+          <div class="col-body">
+            <p class="col-desc">Packaging system and brand identity for a botanical skincare line. Earthy palette, confident type, tactile print finishes.</p>
+          </div>
+          <div class="col-footer">
+            <span class="col-footer-label">View project</span>
+            <span class="col-footer-arrow">→</span>
+          </div>
+        </a>
+
       </div>
-
-      <!-- Loupe -->
-      <a class="project-col pc-1" href="https://loupe.becsdesigned.com">
-        <div class="col-top">
-          <span class="col-eyebrow">WK.006 · Brand identity, 2025</span>
-          <span class="col-title">Loupe</span>
-          <span class="col-subtitle">A study in reduction</span>
-        </div>
-        <div class="col-image">
-          <div style="width:55%;aspect-ratio:1;border-radius:50%;background:#ffffff;"></div>
-        </div>
-        <div class="col-body">
-          <p class="col-desc">A brand identity built around a single mark. The circle as lens — precise, unassuming, quietly attentive. Everything stripped back until only the essential remained.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label">View project</span>
-          <span class="col-footer-arrow">→</span>
-        </div>
-      </a>
-
-      <!-- [your poem here] -->
-      <a class="project-col" style="background:#302F2F;color:#ffffff;" href="https://www.yourpoemhere.com/" target="_blank" rel="noopener noreferrer">
-        <div class="col-top">
-          <span class="col-eyebrow" style="color:#ffffff;">[your poem here]</span>
-          <span class="col-title" style="color:#ffffff;">[your poem here]</span>
-          <span class="col-subtitle" style="color:#ffffff;">Writing, 2025</span>
-        </div>
-        <div class="col-image">
-          <div style="width:60%;text-align:center;font-family:'Alte Haas Grotesk',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.25);line-height:2;letter-spacing:0.04em;">[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]<br/>[ &nbsp; &nbsp; &nbsp; ]</div>
-        </div>
-        <div class="col-body">
-          <p class="col-desc" style="color:#ffffff;">A collection of poems. Words placed carefully, like objects on a table.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label" style="color:#ffffff;">View project</span>
-          <span class="col-footer-arrow" style="color:#ffffff;">→</span>
-        </div>
-      </a>
-
-      <!-- Body Map -->
-      <a class="project-col pc-bodymap" href="https://bodymap.becsdesigned.com">
-        <div class="col-top">
-          <span class="col-eyebrow" style="color:rgba(255,255,255,0.6);">Personal project, 2025</span>
-          <span class="col-title" style="color:#ffffff;">Body Map</span>
-          <span class="col-subtitle" style="color:rgba(255,255,255,0.6);">A research index</span>
-        </div>
-        <div class="col-image"></div>
-        <div class="col-body">
-          <p class="col-desc" style="color:#ffffff;">A personal map of the body — each zone linking to original research, routines, products, and observations collected over time.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label" style="color:rgba(255,255,255,0.6);">View project</span>
-          <span class="col-footer-arrow" style="color:#ffffff;">→</span>
-        </div>
-      </a>
-
-      <!-- Carousel -->
-      <a class="project-col pc-3" href="https://carousel.becsdesigned.com">
-        <div class="col-top">
-          <span class="col-eyebrow">Personal project, 2025</span>
-          <span class="col-title">Carousel</span>
-          <span class="col-subtitle">Look builder</span>
-        </div>
-        <div class="col-image"></div>
-        <div class="col-body">
-          <p class="col-desc">A modular look builder — mix and match head, torso, and legs independently across a full-bleed image carousel.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label">View project</span>
-          <span class="col-footer-arrow">→</span>
-        </div>
-      </a>
-
-      <!-- growwithjo -->
-      <a class="project-col" style="background:#432818;color:#F9F3EB;" href="#">
-        <div class="col-top">
-          <span class="col-eyebrow" style="color:#F9F3EB;">growwithjo</span>
-          <span class="col-title" style="color:#F9F3EB;">growwithjo</span>
-          <span class="col-subtitle" style="color:#F9F3EB;">Brand &amp; digital, 2024</span>
-        </div>
-        <div class="col-image">
-          <img src="https://i.imgur.com/uUimw5k.png" style="width:55%;aspect-ratio:1;border-radius:50%;object-fit:cover;" alt="growwithjo"/>
-        </div>
-        <div class="col-body">
-          <p class="col-desc" style="color:#F9F3EB;">Brand and digital work for a women's home fitness platform. Identity, web, and content across a growing community.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label" style="color:#F9F3EB;">View project</span>
-          <span class="col-footer-arrow" style="color:#F9F3EB;">→</span>
-        </div>
-      </a>
-
-      <!-- Noma Botanicals -->
-      <a class="project-col pc-4" href="#">
-        <div class="col-top">
-          <span class="col-eyebrow">WK.003 · Packaging, 2024</span>
-          <span class="col-title">Noma Botanicals</span>
-          <span class="col-subtitle">Brand &amp; packaging</span>
-        </div>
-        <div class="col-image">
-          <div style="width:36%;aspect-ratio:1/2;background:rgba(148,221,255,0.3);border-radius:40px 40px 0 0;"></div>
-        </div>
-        <div class="col-body">
-          <p class="col-desc">Packaging system and brand identity for a botanical skincare line. Earthy palette, confident type, tactile print finishes.</p>
-        </div>
-        <div class="col-footer">
-          <span class="col-footer-label">View project</span>
-          <span class="col-footer-arrow">→</span>
-        </div>
-      </a>
     </div>
-  </div>
-  </div>
 
+    <script>
+      function openInfo() { document.getElementById('info-page').classList.add('open'); document.body.style.overflow = 'hidden'; }
+      function closeInfo() { document.getElementById('info-page').classList.remove('open'); document.body.style.overflow = ''; }
+      function handleSend(btn) { btn.textContent = 'Sent ✓'; btn.style.opacity = '0.5'; btn.disabled = true; }
+
+      var carState = {};
+      function carSlide(btn, dir) {
+        var row = btn.closest('.car-row');
+        var track = row.querySelector('.car-track');
+        var slides = track.children.length;
+        var key = Array.from(document.querySelectorAll('.car-row')).indexOf(row);
+        if (carState[key] === undefined) carState[key] = 0;
+        carState[key] = (carState[key] + dir + slides) % slides;
+        track.style.transform = 'translateX(-' + (carState[key] * 100) + '%)';
+      }
+    </script>
+
+  </div><!-- end #site-content -->
+
+  <!-- ============================================================
+       TOGGLE: set to true when ready to launch
+  ============================================================ -->
   <script>
-    function openInfo() { document.getElementById('info-page').classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeInfo() { document.getElementById('info-page').classList.remove('open'); document.body.style.overflow = ''; }
-    function handleSend(btn) { btn.textContent = 'Sent ✓'; btn.style.opacity = '0.5'; btn.disabled = true; }
+    const SITE_LIVE = false;
 
-    // Carousel logic
-    var carState = {};
-    function carSlide(btn, dir) {
-      var row = btn.closest('.car-row');
-      var track = row.querySelector('.car-track');
-      var slides = track.children.length;
-      var key = Array.from(document.querySelectorAll('.car-row')).indexOf(row);
-      if (carState[key] === undefined) carState[key] = 0;
-      carState[key] = (carState[key] + dir + slides) % slides;
-      track.style.transform = 'translateX(-' + (carState[key] * 100) + '%)';
+    if (SITE_LIVE) {
+      document.getElementById('coming-soon').style.display = 'none';
+      document.getElementById('site-content').style.display = '';
     }
   </script>
+
 </body>
 </html>
